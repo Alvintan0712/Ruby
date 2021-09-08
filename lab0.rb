@@ -23,6 +23,9 @@ def isPrime(n)
   end
 
   for i in 2.upto(n - 1)
+    if i*i > n
+      break
+    end
     if n % i == 0
       return false
     end
@@ -31,38 +34,19 @@ def isPrime(n)
   return true
 end
 
-$n = 531441
-$prime = Array.new($n + 1, 0)
-def buildPrimeTable
-  len = 0
-  visit = Array.new($n + 1, false)
-
-  for i in 2..$n
-    if not visit[i]
-      $prime[len] = i
-      len += 1
-    end
-    for j in 0..len - 1
-      if (i*$prime[j] > $n) 
-        break
-      end
-      visit[i*$prime[j]] = true
-      if (i % $prime[j] == 0) 
-        break
-      end
-    end
-  end
-end
-
 def primeFactor(n)
   res = 1
-  for x in $prime
-    if x > n or x == 0
-      break
+  if isPrime(n) 
+    return n
+  end
+  while n > 1 do
+    for x in 2..n
+      if n % x == 0 and isPrime(x)
+        res = x
+        break
+      end
     end
-    if n % x == 0
-      res = x
-    end
+    n /= res
   end
   return res
 end
@@ -72,7 +56,7 @@ def mfp(m)
   for n in 1.upto(m)
     res += p n
   end
-
+  # puts "sum = #{res}"
   return primeFactor(res)
 end
 
@@ -89,14 +73,13 @@ def testprime
 end
 
 def testmfp
-  for i in 1..100
-    sum, res = mfp i
-    puts "#{i}: #{res}"
+  for i in 1..10000
+    res = mfp i
+    puts "#{res}"
   end
 end
 
-buildPrimeTable
-
+# testmfp
 puts mfp(1)
 puts mfp(9999)
 puts mfp(10000)
