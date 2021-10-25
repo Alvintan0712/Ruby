@@ -1,0 +1,11 @@
+deploy:
+  stage: deploy
+  script:
+    - sudo apt-get install -y rsync
+    - rsync -arv --delete ./cookbook3 ~
+    - cd ~/cookbook3
+    - bundle install
+    - rails db:migrate
+    - nohup rails server -d -b 115.25.139.10 -p 13395 &
+  only:
+      - cookbook3 
