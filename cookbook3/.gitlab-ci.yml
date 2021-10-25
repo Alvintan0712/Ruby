@@ -6,8 +6,8 @@ deploy:
     - cd ~/cookbook3
     - gem install bundler:2.2.29
     - bundle install
-    - rails db:migrate
     - rake assets:precompile
+    - rails db:migrate
     - nohup rails server -d -b 115.25.139.10 -p 13395 &
   only:
     - cookbook3 
