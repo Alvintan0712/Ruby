@@ -4,11 +4,10 @@ deploy:
     - sudo apt-get install -y rsync
     - rsync -arv --delete ./cookbook3 ~
     - cd ~/cookbook3
-    - ls config
     - gem install bundler:2.2.29
     - bundle install
     - rake assets:precompile 
     - rails db:migrate
-    - nohup rails server -d -b 115.25.139.10 -p 13395 &
+    - nohup rails server -d -b 0.0.0.0 -p 3000 &
   only:
     - cookbook3 
