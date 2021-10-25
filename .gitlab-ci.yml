@@ -1,3 +1,13 @@
+test:
+  stage: test
+  script:
+    - cd cookbook3
+    - bundle install
+    - rails db:migrate RAILS_ENV=test
+    - rails test
+  only:
+    - cookbook3
+
 deploy:
   stage: deploy
   script:
