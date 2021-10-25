@@ -4,6 +4,7 @@ deploy:
     - sudo apt-get install -y rsync
     - rsync -arv --delete ./cookbook3 ~
     - cd ~/cookbook3
+    - ls config
     - gem install bundler:2.2.29
     - bundle install
     - rake assets:precompile 
