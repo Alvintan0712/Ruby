@@ -13,3 +13,18 @@
  *= require_tree .
  *= require_self
  */
+
+#left-panel {
+    float: left;
+    margin: 20px;
+}
+
+#main-panel {
+    float: left;
+    border-left: 1px solid;
+    padding: 10px;
+}
+
+#footer {
+    clear: both
+}

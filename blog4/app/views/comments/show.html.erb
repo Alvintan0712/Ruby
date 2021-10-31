@@ -1,7 +1,14 @@
-<div id="comment_<%= comment.id %>">
-  <p>
-    <strong>Posted <%= time_ago_in_words(comment.created_at) %></strong><br/>
-    <%= comment.content %>
-  </p>
-</div>
+<p id="notice"><%= notice %></p>
 
+<p>
+  <strong>Blog:</strong>
+  <%= @comment.blog %>
+</p>
+
+<p>
+  <strong>Content:</strong>
+  <%= @comment.content %>
+</p>
+
+<%= link_to 'Edit', edit_comment_path(@comment) %> |
+<%= link_to 'Back', comments_path %>
