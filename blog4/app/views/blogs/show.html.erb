@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @blog.title %>
+</p>
+
+<p>
+  <strong>Content:</strong>
+  <%= @blog.content %>
+</p>
+
+<%= link_to 'Edit', edit_blog_path(@blog) %> |
+<%= link_to 'Destory', @blog, :confirm => 'Are you sure?', :method => :delete %> |
+<%= link_to 'See All Posts', blogs_path %>
+
+<br/><br/>
+
+<h2>Comments</h2>
+<div id="comments">
+  <%= render :partial => @blog.comments %>
+</div>
+
+<%= form_for([@blog, Comment.new]) do |f| %>
+  <p>
+    <%= f.label :content, "New Comment" %> <br />
+    <%= f.text_area :content, :rows => 5 %>
+  </p>
+  <p><%= f.submit "Add Comment" %></p>
+<% end %>
