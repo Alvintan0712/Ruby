@@ -1,12 +1,12 @@
-test:
-  stage: test
-  script:
-    - cd blog4
-    - bundle install
-    - rails db:migrate RAILS_ENV=test
-    - rails test
-  only:
-    - blog4
+# test:
+#   stage: test
+#   script:
+#     - cd blog4
+#     - bundle install
+#     - rails db:migrate RAILS_ENV=test
+#     - rails test
+#   only:
+#     - blog4
 
 deploy:
   stage: deploy
