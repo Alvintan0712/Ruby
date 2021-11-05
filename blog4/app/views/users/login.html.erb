@@ -1,0 +1,7 @@
+<h1>Please Login</h1>
+<h2><%= alert %></h2>
+<%= form_with url: do_login_users_path do %>
+    <p>Username: <%= text_field_tag :username %></p>
+    <p>Password: <%= password_field_tag :password %></p>
+    <%= submit_tag 'Login' %>
+<% end %>
