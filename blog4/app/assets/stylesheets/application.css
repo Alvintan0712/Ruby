@@ -15,16 +15,17 @@
  */
 
 #left-panel {
-    float: left;
-    margin: 20px;
+  float: left;
+  margin: 20px;
 }
 
 #main-panel {
-    float: left;
-    border-left: 1px solid;
-    padding: 10px;
+  float: left;
+  border-left: 1px solid;
+  padding: 10px
 }
 
 #footer {
-    clear: both
+  clear: both
 }
+

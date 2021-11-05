@@ -10,22 +10,20 @@
   </head>
 
   <body>
-    <div id="banner"> 
-      <h1>My Blogs</h1>
+    <p class="notice"><%= notice %></p>
+    <p class="alert"><%= alert %></p>
+    <div id="banner">
+      <h1> My Blogs IV</h1>
     </div>
+  
     <div id="left-panel">
-      <% if current_user %>
-        <%= current_user.username %>Logged in.<br/>
-        <%= link_to 'Logout', logout_users_path %>
-      <% else %>
-        Please <%= link_to 'Login', login_users_path %>
-      <% end %>
       Left Panel
     </div>
 
     <div id="main-panel">
       <%= yield %>
     </div>
+
     <div id="footer">
       Copyright alvin &copy; 2021
     </div>
