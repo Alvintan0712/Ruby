@@ -17,7 +17,12 @@
     </div>
   
     <div id="left-panel">
-      Left Panel
+      <% if user_signed_in? %>
+        Please <%= link_to 'Logout', destroy_user_session_path, :method => :delete   %>
+      <% else %>
+        Please <%= link_to 'Login', new_user_session_path %> <br/>
+        No Account? <%= link_to 'Register', new_user_registration_path %>
+      <% end %>
     </div>
 
     <div id="main-panel">
