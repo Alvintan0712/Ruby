@@ -1,7 +1,7 @@
 class BlogsController < ApplicationController
   before_action :set_blog, only: %i[ show edit update destroy ]
-  before_action :authenticate_user!, except: [:index, :show]
-  before_action :correct_user, only: [:edit, :update, :destroy]
+  before_action :authenticate_user!
+  # before_action :correct_user, only: [:edit, :update, :destroy]
 
   # GET /blogs or /blogs.json
   def index
@@ -24,6 +24,7 @@ class BlogsController < ApplicationController
   # POST /blogs or /blogs.json
   def create
     @blog = Blog.new(blog_params)
+    @user = current_user
 
     respond_to do |format|
       if @blog.save
