@@ -15,8 +15,9 @@ deploy:
     - rsync -arv --delete ./blog4 ~
     - cd ~/blog4
     - bundle install
-    - rails g devise:install
     - rails db:migrate
+    - yarn
+    - rails webpacker:compile
     - nohup rails server -d -b 0.0.0.0 -p 4000 &
     - echo success
   only:
