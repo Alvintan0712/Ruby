@@ -16,8 +16,6 @@ deploy:
     - cd ~/blog4
     - bundle install
     - rails db:migrate
-    - yarn
-    - rails webpacker:compile
     - nohup rails server -d -b 0.0.0.0 -p 4000 &
     - echo success
   only:
