@@ -1,0 +1,26 @@
+<h1>Profile</h1>
+
+<p>
+  <strong>Username:</strong>
+</p>
+<p>
+  <strong>Email:</strong>
+  <%= @user.email %>
+</p>
+<p>
+  <strong>Roles:</strong>
+</p>
+<p>
+  <strong>Blogs:</strong>
+  <% for blog in @user.blogs %>
+    <%= link_to blog.title, blog %>
+  <% end %>
+</p>
+<p>
+  <strong>Followers:</strong>
+</p>
+<p>
+  <strong>Following:</strong>
+</p>
+
+<%= link_to 'Back', root_path %>

@@ -11,17 +11,18 @@
 </p>
 
 <%= link_to 'Edit', edit_blog_path(@blog) %> |
-<%= link_to 'Back', blogs_path %>
+<%= link_to 'Destroy', @blog, confirm: "Are u sure?", method: :delete %> |
+<%= link_to 'See All Posts', blogs_path %>
 
 <h2>Comment</h2>
 <div id="comments"> 
-  <%= render :partial => @blog.comments %>
+  <%= render partial: @blog.comments %>
 </div>
 
 <%= form_for [@blog, Comment.new] do |f| %>
   <p>
     <%= f.label :content, "New Comment" %> <br />
-    <%= f.text_area :content, :rows => 5 %>
+    <%= f.text_area :content, rows: 5 %>
   </p>
   <p><%= f.submit "Add Comment" %></p>
 <% end %>

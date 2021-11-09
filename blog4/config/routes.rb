@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
   devise_for :users
+  get "users/show" => "users#show"
+  get "users/edit" => "users#edit"
 
   resources :blogs do
     resources :comments

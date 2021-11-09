@@ -42,10 +42,10 @@ class CommentsController < ApplicationController
   def update
     respond_to do |format|
       if @comment.update(comment_params)
-        format.html { redirect_to @comment, notice: "Comment was successfully updated." }
+        format.html { redirect_to @blog, notice: "Comment was successfully updated." }
         format.json { render :show, status: :ok, location: @comment }
       else
-        format.html { render :edit, status: :unprocessable_entity }
+        format.html { render "blogs/show" }
         format.json { render json: @comment.errors, status: :unprocessable_entity }
       end
     end
@@ -53,9 +53,11 @@ class CommentsController < ApplicationController
 
   # DELETE /comments/1 or /comments/1.json
   def destroy
+    @blog = Blog.find(params[:blog_id])
+
     @comment.destroy
     respond_to do |format|
-      format.html { redirect_to comments_url, notice: "Comment was successfully destroyed." }
+      format.html { redirect_to @blog, notice: "Comment was successfully destroyed." }
       format.json { head :no_content }
     end
   end
