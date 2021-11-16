@@ -1,5 +1,6 @@
 <div id="comment_<%= comment.id %>">
   <p>
+    <%= comment.id %> <%= comment.blog.id %>
     <strong>Posted <%= time_ago_in_words(comment.created_at) %></strong><br />
     <%= comment.content %>
   </p>
