@@ -14,11 +14,11 @@ Devise.setup do |config|
   # confirmation, reset password and unlock tokens in the database.
   # Devise will use the `secret_key_base` as its `secret_key`
   # by default. You can change it below and use your own secret key.
-  # config.secret_key = '9cdcf3e233b5e33a347a4ad578d3fe43e863c54955d1998b6bf62614bdaaa81f3b9e744f1479fc75506ba51fc8a3ddb9ced73826e2e3365d6e5302ada533a137'
+  # config.secret_key = 'c4a136f7827d73fb8c4fa6c60c949fc2d1672ae0396f758fbbc0690bcf2f6aa32f9a99e6e0525df107ba96c7f19e66ddc2f1c9d6d9b6f0b1136775aaa1c9edcf'
 
   # ==> Controller configuration
   # Configure the parent class to the devise controllers.
-  config.parent_controller = 'DeviseController'
+  # config.parent_controller = 'DeviseController'
 
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
@@ -126,7 +126,7 @@ Devise.setup do |config|
   config.stretches = Rails.env.test? ? 1 : 12
 
   # Set up a pepper to generate the hashed password.
-  # config.pepper = '6fb1345e7951a9389e588d8e7fa391594abfdcc9a69d667841044440e5f433db059b90d6e8052e74628623272029db8cfb598dec76296931576bee8bb8a4b3bc'
+  # config.pepper = '1c30dfdc0ae626d7cb4aa098120dde9510f77a0d7a8139d02900d1c1fb7566ba4a7a1f98c46ab89edd4334bb8e402bbb9de9f2ede2923ed71528c0eb1cf18e09'
 
   # Send a notification to the original email when the user's email is changed.
   # config.send_email_changed_notification = false
@@ -160,7 +160,7 @@ Devise.setup do |config|
   config.reconfirmable = true
 
   # Defines which key will be used when confirming an account
-  config.confirmation_keys = [:login]
+  # config.confirmation_keys = [:email]
 
   # ==> Configuration for :rememberable
   # The time the user will be remembered without asking for credentials again.
@@ -219,7 +219,7 @@ Devise.setup do |config|
   # ==> Configuration for :recoverable
   #
   # Defines which key will be used when recovering the password for an account
-  config.reset_password_keys = [:login]
+  # config.reset_password_keys = [:email]
 
   # Time interval you can reset your password with a reset password key.
   # Don't put a too small interval or your users won't have the time to
@@ -244,7 +244,7 @@ Devise.setup do |config|
   # Turn scoped views on. Before rendering "sessions/new", it will first check for
   # "users/sessions/new". It's turned off by default because it's slower if you
   # are using only default views.
-  config.scoped_views = true
+  # config.scoped_views = false
 
   # Configure the default scope given to Warden. By default it's the first
   # devise role declared in your routes (usually :user).
