@@ -14,11 +14,11 @@
         <ul class="navbar-nav mb-2 mb-lg-0">
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Profile (TODO)
+              Profile
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
               <li>
-                <a class="dropdown-item" href="#">View (TODO)</a>
+                <div class="dropdown-header"><%= current_user.username %></div>
               </li>
               <li>
                 <%= link_to "Edit", edit_user_registration_path, class: "dropdown-item" %>
