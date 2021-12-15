@@ -3,32 +3,35 @@
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
   <%= render "devise/shared/error_messages", resource: resource %>
 
-  <div class="field">
-    <%= f.label :username %><br />
-    <%= f.text_field :username, autofocus: true, autocomplete: "username" %>
+  <div class="mb-4">
+    <%= f.label :username, class: "form-label" %><br />
+    <%= f.text_field :username, class: "form-control", autofocus: true, autocomplete: "username" %>
   </div>
 
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+  <div class="mb-4">
+    <%= f.label :email, class: "form-label" %><br />
+    <%= f.email_field :email, class: "form-control", autofocus: true, autocomplete: "email" %>
   </div>
 
-  <div class="field">
+  <div class="mb-4">
     <%= f.label :password %>
     <% if @minimum_password_length %>
     <em>(<%= @minimum_password_length %> characters minimum)</em>
     <% end %><br />
-    <%= f.password_field :password, autocomplete: "new-password" %>
+    <%= f.password_field :password, class: "form-control", autocomplete: "new-password" %>
   </div>
 
-  <div class="field">
+  <div class="mb-4">
     <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+    <%= f.password_field :password_confirmation, class: "form-control", autocomplete: "new-password" %>
   </div>
 
-  <div class="actions">
-    <%= f.submit "Sign up" %>
+  <div class="actions mb-4">
+    <%= f.submit "Sign up", class:"btn btn-primary" %>
   </div>
 <% end %>
 
-<%= render "devise/shared/links" %>
+<p class="text-center">
+  Have account?
+  <%= link_to "Log in", new_session_path(resource_name), style: "margin-left: 1%" %><br />
+</p>
