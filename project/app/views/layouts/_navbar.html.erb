@@ -14,14 +14,17 @@
         <ul class="navbar-nav mb-2 mb-lg-0">
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Profile
+              <%= current_user.username %>
             </a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
               <li>
-                <div class="dropdown-header"><%= current_user.username %></div>
+                <div class="dropdown-header">Profile</div>
               </li>
               <li>
                 <%= link_to "Edit", edit_user_registration_path, class: "dropdown-item" %>
+              </li>
+              <li>
+                <%= link_to "Change Password", users_update_password_path, class: "dropdown-item" %>
               </li>
               <li><hr class="dropdown-divider"></li>
               <li>
