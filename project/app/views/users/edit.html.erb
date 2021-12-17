@@ -1,0 +1,22 @@
+<h2>Change Password</h2>
+
+<%= form_for(@user, :url => { :action => "update" } ) do |f| %>
+  <div class="mb-4">
+    <%= f.label :current_password, class: "form-label" %> <i>(we need your current password to confirm your changes)</i><br />
+    <%= f.password_field :current_password, class: "form-control" %>
+  </div>
+
+  <div class="mb-4">
+    <%= f.label :password, class: "form-label" %><br />
+    <%= f.password_field :password, class: "form-control", :autocomplete => "off"  %>
+  </div>
+
+  <div class="mb-4">
+    <%= f.label :password_confirmation, class: "form-label" %><br />
+    <%= f.password_field :password_confirmation, class: "form-control" %>
+  </div>
+
+  <div class="action_container mb-4">
+    <%= f.submit "Change Password", class: "btn btn-warning" %>
+  </div>
+<% end %>
