@@ -3,8 +3,5 @@ class HomeController < ApplicationController
 
   def index
     @user = current_user
-    print("user id is:")
-    print(@user.id)
-    print("\n")
   end
 end

@@ -14,7 +14,7 @@
 
   <body>
     <%= render "layouts/navbar" %>
-    <div class="container">
+    <div class="container" style="height:auto; min-height:500px">
       <% if notice %>
         <div class="alert alert-primary" role="alert">
           <%= notice %>
@@ -27,5 +27,6 @@
       <% end %>
       <%= yield %>
     </div>
+    <%= render "layouts/footer" %>
   </body>
 </html>
