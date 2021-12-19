@@ -57,7 +57,14 @@ class ProductsController < ApplicationController
     end
   end
 
+  # PATCH/PUT /products/1/buy
+  def buy
+    # @product = Product.find(params[:id])
+    # @user = User.find(params[:user_id])
+  end
+
   private
+
   # Use callbacks to share common setup or constraints between actions.
   def set_product
     @product = Product.find(params[:id])
@@ -66,5 +73,9 @@ class ProductsController < ApplicationController
   # Only allow a list of trusted parameters through.
   def product_params
     params.require(:product).permit(:name, :description, :price, :storage, :user_id)
+  end
+
+  def buy_params
+    params.require(:product).permit(:sale)
   end
 end

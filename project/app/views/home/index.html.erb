@@ -1,2 +1,22 @@
-<h1>Home (TODO)</h1>
+<h1>Home</h1>
 <p>Hi <%= @user.username %></p>
+
+<table>
+  <thead>
+  <tr>
+    <th>Name</th>
+    <th>Seller</th>
+    <th colspan="1"></th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <% @products.each do |product| %>
+    <tr>
+      <td><%= product.name %></td>
+      <td><%= product.user.username %></td>
+      <td><%= link_to 'Show', product %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
