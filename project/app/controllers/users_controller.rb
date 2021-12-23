@@ -55,6 +55,27 @@ class UsersController < ApplicationController
     @user = current_user
   end
 
+  def withdraw
+    @user = current_user
+  end
+
+  def withdrawal
+    @user = current_user
+    value = params[:value].to_f
+
+    if value.is_a?(Float) and value.positive? and value <= @user.balance
+      @user.balance -= value
+    else
+      render 'withdraw'
+    end
+
+    if @user.save
+      redirect_to users_show_balance_path
+    else
+      render 'withdraw'
+    end
+  end
+
   private
 
   def user_params

@@ -7,6 +7,8 @@ Rails.application.routes.draw do
   get 'users/show_balance', to: 'users#show_balance'
   get 'users/top_up', to: 'users#top_up'
   patch 'users/top_up', to: 'users#recharge'
+  get 'users/withdraw', to: 'users#withdraw'
+  patch 'users/withdraw', to: 'users#withdrawal'
 
   resources :products do
     get 'buy', to: 'products#buy'
