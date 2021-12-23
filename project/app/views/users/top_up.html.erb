@@ -1,0 +1,11 @@
+<h1>Top up</h1>
+
+<%= form_with url: users_top_up_path, method: :patch do |form| %>
+  <div class="mb-4">
+    <%= form.label :value, class: "form-label" %>
+    <%= form.number_field :value, in: 0..10000, step: 0.01, class: "form-control" %>
+  </div>
+  <div class="actions mb-4">
+    <%= form.submit "Top Up", class: "btn btn-warning" %>
+  </div>
+<% end %>

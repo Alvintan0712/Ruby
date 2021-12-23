@@ -8,12 +8,12 @@
 
   <div class="mb-4">
     <%= f.label :password, class: "form-label" %><br />
-    <%= f.password_field :password, class: "form-control", :autocomplete => "off"  %>
+    <%= f.password_field :password, class: "form-control", pattern: ".{6,}", title: "Must contain at least 6 or more characters", :autocomplete => "off"  %>
   </div>
 
   <div class="mb-4">
     <%= f.label :password_confirmation, class: "form-label" %><br />
-    <%= f.password_field :password_confirmation, class: "form-control" %>
+    <%= f.password_field :password_confirmation, class: "form-control", pattern: ".{6,}" %>
   </div>
 
   <div class="action_container mb-4">

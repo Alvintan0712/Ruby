@@ -11,29 +11,29 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= form.label :name %>
-    <%= form.text_field :name %>
+  <div class="mb-4">
+    <%= form.label :name, class: "form-label" %>
+    <%= form.text_field :name, class: "form-control" %>
   </div>
 
-  <div class="field">
-    <%= form.label :description %>
-    <%= form.text_area :description %>
+  <div class="mb-4">
+    <%= form.label :description, class: "form-label" %>
+    <%= form.text_area :description, class: "form-control" %>
   </div>
 
-  <div class="field">
-    <%= form.label :price %>
-    <%= form.number_field :price %>
+  <div class="mb-4 row row-cols-lg-auto g-2 align-items-center">
+    <%= form.label "price:", class: "form-label" %>
+    <div class="col-sm"><%= form.number_field :price, class: "form-control" %></div>
   </div>
 
-  <div class="field">
-    <%= form.label :storage %>
-    <%= form.number_field :storage %>
+  <div class="mb-4 row row-cols-lg-auto g-2 align-items-center">
+    <%= form.label "storage:", class: "form-label" %>
+    <div class="col-sm"><%= form.number_field :storage, class: "form-control" %></div>
   </div>
 
   <%= form.hidden_field :user_id, value: current_user.id %>
 
-  <div class="actions">
-    <%= form.submit %>
+  <div class="actions mb-4">
+    <%= form.submit class: "btn btn-primary" %>
   </div>
 <% end %>

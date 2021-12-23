@@ -1,0 +1,23 @@
+<h1>Buy</h1>
+<p>Product name: <%= @product.name %></p>
+<p>Quantity: <%= @quantity %></p>
+<p>Cost: $<%= @cost %></p>
+
+<%= form_with url: product_buy_path(@product), method: :patch do |form| %>
+  <div class="mb-4">
+    <%= form.label :address, class: "form-label" %>
+    <%= form.text_area :address, size: "1x3", class: "form-control" %>
+  </div>
+  <h4>Delivery</h4>
+  <div class="mb-4">
+    <%= form.radio_button :normal, 'options', class: "btn-check", id: "option1" %>
+    <%= form.label :normal, class: "btn btn-secondary", for: "option1" %>
+    <%= form.radio_button :express, 'options', class: "btn-check", id: "option2" %>
+    <%= form.label :express, class: "btn btn-secondary", for: "option2" %>
+  </div>
+  <div class="actions mb-4">
+    <%= form.submit "Pay Now", class: "btn btn-warning" %>
+  </div>
+<% end %>
+
+<%= link_to "Back", product_path(@product) %>
