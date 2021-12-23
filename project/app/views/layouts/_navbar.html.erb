@@ -8,6 +8,7 @@
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item"><%= link_to "Home", root_path, class: "nav-link active" %></li>
         <li class="nav-item"><%= link_to "My Products", products_path, class: "nav-link active" %></li>
+        <li class="nav-item"><%= link_to "My Orders", orders_path, class: "nav-link active" %></li>
         <li class="nav-item"><%= link_to "Customer Service (TODO)", root_path, class: "nav-link active" %></li>
       </ul>
       <% if user_signed_in? %>

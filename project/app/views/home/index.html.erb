@@ -6,22 +6,10 @@
   <%= form.submit "Search", class: "btn btn-outline-success" %>
 <% end %>
 
-<table>
-  <thead>
-  <tr>
-    <th>Name</th>
-    <th>Seller</th>
-    <th colspan="1"></th>
-  </tr>
-  </thead>
-
-  <tbody>
-    <% @products.each do |product| %>
-      <tr>
-        <td><%= product.name %></td>
-        <td><%= product.user.username %></td>
-        <td><%= link_to 'Show', product %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<h2>Buy Somethings</h2>
+<% @products.each do |product| %>
+  <div>
+    <%= product.name %>
+    <%= link_to 'Show', product %>
+  </div>
+<% end %>

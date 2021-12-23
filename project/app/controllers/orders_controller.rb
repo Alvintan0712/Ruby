@@ -3,7 +3,7 @@ class OrdersController < ApplicationController
 
   # GET /orders or /orders.json
   def index
-    @orders = Order.all
+    @orders = Order.where(user: current_user)
   end
 
   # GET /orders/1 or /orders/1.json
@@ -28,10 +28,15 @@ class OrdersController < ApplicationController
     @order.product = Product.find(params[:product_id])
     @order.quantity = Integer(params[:quantity])
     @order.price = @order.product.price * @order.quantity
+    @order.user = current_user
 
+    # TODO: Add Order to Cart Table
     if params['commit'] == 'Add To Cart'
-      # TODO: Add Order to Cart Table
-      redirect_to @order.product
+      if @order.save
+        redirect_to orders_path
+      else
+        render product_path(@order.product)
+      end
     end
   end
 
@@ -42,7 +47,6 @@ class OrdersController < ApplicationController
   # POST /orders or /orders.json
   def create
     @order = Order.new(order_params)
-    print(params[:order][:user_id])
     id = Integer(params[:order][:user_id])
     @user = User.find(id)
     @user.balance -= @order.price
@@ -61,8 +65,14 @@ class OrdersController < ApplicationController
 
   # PATCH/PUT /orders/1 or /orders/1.json
   def update
+    @order = Order.find(params[:id])
+    id = Integer(params[:order][:user_id])
+    @user = User.find(id)
+    @user.balance -= @order.price
+
     respond_to do |format|
-      if @order.update(order_params)
+      if @user.save && @order.update(order_params)
+        @order.update(status: 1)
         format.html { redirect_to @order, notice: "Order was successfully updated." }
         format.json { render :show, status: :ok, location: @order }
       else
