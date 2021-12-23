@@ -1,17 +1,17 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
 
-  def show;
+  def show
     @user = current_user
     @role = case @user.role
-    when 1
-      'normal user'
-    when 2
-      'staff'
-    when 3
-      'admin'
-    else
-      'unknown'
+            when 1
+              'normal user'
+            when 2
+              'staff'
+            when 3
+              'admin'
+            else
+              'unknown'
             end
   end
 
@@ -45,7 +45,7 @@ class UsersController < ApplicationController
     end
 
     if @user.save
-      redirect_to users_show_path
+      redirect_to users_show_balance_path
     else
       render 'top_up'
     end
