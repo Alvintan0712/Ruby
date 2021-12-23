@@ -33,13 +33,14 @@
 <% if current_user == @product.user %>
   <%= link_to 'Edit', edit_product_path(@product) %>
 <% else %>
-  <%= form_with url: product_buy_path(@product), method: :get do |form| %>
+  <%= form_with url: new_order_path, method: :get do |form| %>
     <div class="mb-4 row row-cols-lg-auto g-2 align-items-center">
       <%= form.label "quantity:", class: "form-label" %>
       <div class="col-12">
         <%= form.number_field :quantity, in: 1..@product.storage, value: 1, class: "form-control" %>
       </div>
     </div>
+    <%= form.hidden_field :product_id, value: @product.id %>
     <div class="actions mb-4">
       <%= form.submit "Buy Now", class: "btn btn-primary" %>
       <%= form.submit "Add To Cart", class: "btn btn-secondary" %>

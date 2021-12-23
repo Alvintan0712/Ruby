@@ -22,7 +22,12 @@ class User < ApplicationRecord
     end
   end
 
+  # balance
+  validates :balance, numericality: { greater_than_or_equal_to: 0 }
+
   # Products
   has_many :products
 
+  # Orders
+  has_many :orders
 end

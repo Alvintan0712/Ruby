@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :orders
   devise_for :users, controllers: { registrations: 'users/registrations' }
 
   get 'users/show', to: 'users#show'
