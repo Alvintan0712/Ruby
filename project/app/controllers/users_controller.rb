@@ -42,6 +42,7 @@ class UsersController < ApplicationController
       @user.balance += value
     else
       render 'top_up'
+      return
     end
 
     if @user.save
@@ -67,6 +68,7 @@ class UsersController < ApplicationController
       @user.balance -= value
     else
       render 'withdraw'
+      return
     end
 
     if @user.save
