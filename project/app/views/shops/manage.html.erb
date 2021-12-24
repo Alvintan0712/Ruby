@@ -1,0 +1,60 @@
+<p id="notice"><%= notice %></p>
+
+<div class="container">
+  <ul class="nav nav-pills mb-4">
+    <li class="nav-item">
+      <a class="nav-link active" data-bs-toggle="pill" href="#about">About <%= @shop.name %></a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="pill" href="#product">Products</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="pill" href="#order">Orders</a>
+    </li>
+  </ul>
+
+  <div class="tab-content">
+    <div class="tab-pane container active" id="about">
+      <div class="mb-4">
+        <strong>Name:</strong>
+        <%= @shop.name %>
+      </div>
+
+      <div class="mb-4">
+        <strong>Owner:</strong>
+        <%= @shop.user.username %>
+      </div>
+    </div>
+    <div class="tab-pane container fade" id="product">
+      <div class="mb-4">
+        <% @products.each do |product| %>
+          <div>
+            <%= product.name %>
+            <%= product.shop.name %>
+            <%= link_to 'Show', product %> |
+            <%= link_to 'Delete', product, method: :delete %>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="mb-4">
+        <%= link_to 'Add Product', new_product_path, class: "btn btn-primary" %>
+      </div>
+    </div>
+    <div class="tab-pane container fade" id="order">
+      <div class="mb-4">
+        <% @orders.each do |order| %>
+          <div>
+            <%= order.id %>.
+            <%= order.product.name %>
+            <%= order.user.username %>
+            <%= link_to 'Show', order %> |
+            <%= link_to 'Cancel', order, method: :delete %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <%= link_to 'Back', root_path %>
+</div>

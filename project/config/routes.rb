@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
+  patch 'orders/:id/send', to: 'orders#send'
   resources :orders
   devise_for :users, controllers: { registrations: 'users/registrations' }
+
+  get 'shops/manage', to: 'shops#manage'
+  resources :shops
 
   get 'users/show', to: 'users#show'
   get 'users/update_password', to: 'users#edit'
@@ -16,5 +20,6 @@ Rails.application.routes.draw do
     patch 'buy', to: 'products#pay'
   end
 
+  get 'about', to: 'home#about'
   root to: 'home#index'
 end

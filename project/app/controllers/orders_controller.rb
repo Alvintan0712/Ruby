@@ -48,16 +48,20 @@ class OrdersController < ApplicationController
   def create
     @order = Order.new(order_params)
     id = Integer(params[:order][:user_id])
+    quantity = Integer(params[:order][:quantity])
     @user = User.find(id)
     @user.balance -= @order.price
+    @order.product.storage -= quantity
 
     respond_to do |format|
-      if @user.save && @order.save
-        @order.update(status: 1)
-        format.html { redirect_to @order, notice: "Order was successfully created." }
+      if @user.balance >= 0 && @order.product.storage >= 0 && @order.save
+        @user.save
+        @order.product.save
+        purchase(@order)
+        format.html { redirect_to @order, notice: "Paid Successfully." }
         format.json { render :show, status: :created, location: @order }
       else
-        format.html { render :new, status: :unprocessable_entity }
+        format.html { render :new, status: :unprocessable_entity, notice: "Poor Guy" }
         format.json { render json: @order.errors, status: :unprocessable_entity }
       end
     end
@@ -72,7 +76,7 @@ class OrdersController < ApplicationController
 
     respond_to do |format|
       if @user.save && @order.update(order_params)
-        @order.update(status: 1)
+        purchase(@order)
         format.html { redirect_to @order, notice: "Order was successfully updated." }
         format.json { render :show, status: :ok, location: @order }
       else
@@ -91,6 +95,10 @@ class OrdersController < ApplicationController
     end
   end
 
+  def send
+
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.
@@ -101,5 +109,15 @@ class OrdersController < ApplicationController
   # Only allow a list of trusted parameters through.
   def order_params
     params.require(:order).permit(:product_id, :user_id, :price, :address, :phone, :quantity, :delivery)
+  end
+
+  def purchase(order)
+    seller = order.product.shop.user
+    seller.balance += order.price
+    order.product.sale += order.quantity
+    order.status = 1
+    order.save
+    order.product.save
+    seller.save
   end
 end

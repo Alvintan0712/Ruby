@@ -1,0 +1,21 @@
+<h1>Shops</h1>
+
+<table>
+  <thead>
+  <tr>
+    <th>Name</th>
+    <th>Owner</th>
+    <th colspan="1"></th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <% @shops.each do |shop| %>
+    <tr>
+      <td><%= shop.name %></td>
+      <td><%= shop.user.username %></td>
+      <td><%= link_to 'Show', shop %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

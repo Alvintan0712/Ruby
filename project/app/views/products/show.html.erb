@@ -18,6 +18,9 @@
 <p>
   <strong>Storage:</strong>
   <%= @product.storage %>
+  <% if @product.storage == 0 %>
+    (Out Of Stock)
+  <% end %>
 </p>
 
 <p>
@@ -26,11 +29,11 @@
 </p>
 
 <p>
-  <strong>Seller:</strong>
-  <%= @product.user.username %>
+  <strong>Shop:</strong>
+  <%= @product.shop.name %>
 </p>
 
-<% if current_user == @product.user %>
+<% if current_user == @product.shop.user %>
   <%= link_to 'Edit', edit_product_path(@product) %>
 <% else %>
   <%= form_with url: new_order_path, method: :get do |form| %>

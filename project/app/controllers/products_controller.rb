@@ -1,10 +1,11 @@
 class ProductsController < ApplicationController
-  before_action :set_product, only: %i[ show edit update destroy ]
   before_action :authenticate_user!
+  before_action :set_product, only: %i[ show edit update destroy ]
 
   # GET /products or /products.json
   def index
-    @products = Product.where(user_id: current_user.id)
+    @shop, _ = Shop.where(user: current_user)
+    @products = Product.where(shop: @shop)
   end
 
   # GET /products/1 or /products/1.json
@@ -14,10 +15,12 @@ class ProductsController < ApplicationController
   # GET /products/new
   def new
     @product = Product.new
+    @shop, _ = Shop.where(user: current_user)
   end
 
   # GET /products/1/edit
   def edit
+    @shop, _ = Shop.where(user: current_user)
   end
 
   # POST /products or /products.json
@@ -91,10 +94,6 @@ class ProductsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def product_params
-    params.require(:product).permit(:name, :description, :price, :storage, :user_id)
-  end
-
-  def buy_params
-    params.require(:product).permit(:sale)
+    params.require(:product).permit(:name, :description, :price, :storage, :shop_id)
   end
 end

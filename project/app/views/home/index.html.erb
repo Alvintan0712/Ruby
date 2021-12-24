@@ -7,9 +7,10 @@
 <% end %>
 
 <h2>Buy Somethings</h2>
-<% @products.each do |product| %>
+<% @shops.each do |shop| %>
   <div>
-    <%= product.name %>
-    <%= link_to 'Show', product %>
+    <%= shop.name %>
+    <%= shop.user.username %>
+    <%= link_to 'Show', shop %>
   </div>
 <% end %>

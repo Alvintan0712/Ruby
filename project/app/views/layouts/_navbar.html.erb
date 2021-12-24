@@ -7,9 +7,11 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item"><%= link_to "Home", root_path, class: "nav-link active" %></li>
-        <li class="nav-item"><%= link_to "My Products", products_path, class: "nav-link active" %></li>
-        <li class="nav-item"><%= link_to "My Orders", orders_path, class: "nav-link active" %></li>
-        <li class="nav-item"><%= link_to "Customer Service (TODO)", root_path, class: "nav-link active" %></li>
+        <% if user_signed_in? %>
+          <li class="nav-item"><%= link_to "My Orders", orders_path, class: "nav-link active" %></li>
+          <li class="nav-item"><%= link_to "My Shop", shops_manage_path, class: "nav-link active" %></li>
+          <li class="nav-item"><%= link_to "Customer Service (TODO)", root_path, class: "nav-link active" %></li>
+        <% end %>
       </ul>
       <% if user_signed_in? %>
         <ul class="navbar-nav mb-2 mb-lg-0">

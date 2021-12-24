@@ -1,0 +1,22 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @shop.name %>
+</p>
+
+<p>
+  <strong>Owner:</strong>
+  <%= @shop.user.username %>
+</p>
+
+<h2><%= @shop.name %> Products</h2>
+<% @products.each do |product| %>
+  <div>
+    <%= product.name %>
+    <%= product.shop.name %>
+    <%= link_to 'Show', product %>
+  </div>
+<% end %>
+
+<%= link_to 'Back', root_path %>
