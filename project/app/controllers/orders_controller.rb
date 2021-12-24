@@ -106,6 +106,17 @@ class OrdersController < ApplicationController
     end
   end
 
+  # PATCH /orders/1/receive
+  def receive_item
+    @order = Order.find(params[:order_id])
+    @order.status = 3
+    @order.save
+    respond_to do |format|
+      format.html { redirect_to orders_path, notice: 'Parcel Received.' }
+      format.json { head :no_content }
+    end
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.

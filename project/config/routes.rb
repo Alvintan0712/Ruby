@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   resources :orders do
     patch 'send', to: 'orders#send_item'
+    patch 'receive', to: 'orders#receive_item'
   end
   devise_for :users, controllers: { registrations: 'users/registrations' }
 
