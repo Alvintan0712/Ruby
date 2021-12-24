@@ -58,10 +58,10 @@ class OrdersController < ApplicationController
         @user.save
         @order.product.save
         purchase(@order)
-        format.html { redirect_to @order, notice: "Paid Successfully." }
+        format.html { redirect_to @order, notice: 'Paid Successfully.' }
         format.json { render :show, status: :created, location: @order }
       else
-        format.html { render :new, status: :unprocessable_entity, notice: "Poor Guy" }
+        format.html { render :new, status: :unprocessable_entity, notice: 'Poor Guy' }
         format.json { render json: @order.errors, status: :unprocessable_entity }
       end
     end
@@ -77,7 +77,7 @@ class OrdersController < ApplicationController
     respond_to do |format|
       if @user.save && @order.update(order_params)
         purchase(@order)
-        format.html { redirect_to @order, notice: "Order was successfully updated." }
+        format.html { redirect_to @order, notice: 'Order was successfully updated.' }
         format.json { render :show, status: :ok, location: @order }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -90,13 +90,20 @@ class OrdersController < ApplicationController
   def destroy
     @order.destroy
     respond_to do |format|
-      format.html { redirect_to orders_url, notice: "Order was successfully destroyed." }
+      format.html { redirect_to orders_url, notice: 'Order was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
 
-  def send
-
+  # PATCH /orders/1/send
+  def send_item
+    @order = Order.find(params[:order_id])
+    @order.status = 2
+    @order.save
+    respond_to do |format|
+      format.html { redirect_to shops_manage_path, notice: 'This order was sent.' }
+      format.json { head :no_content }
+    end
   end
 
   private

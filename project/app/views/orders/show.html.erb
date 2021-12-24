@@ -39,10 +39,14 @@
   <div class="mb-4">
       <%= link_to 'Pay', edit_order_path(@order), class: "btn btn-warning" %>
   </div>
-<% elsif @order.product.shop.user == current_user %>
+<% elsif @order.status == 1 && @order.product.shop.user == current_user %>
   <div class="mb-4">
-    <%= link_to 'Send', edit_order_path(@order), class: "btn btn-warning" %>
+    <%= link_to 'Send', order_send_path(@order), class: "btn btn-warning", method: :patch %>
   </div>
 <% end %>
-<%= link_to 'Back', orders_path %>
 
+<% if @order.product.shop.user == current_user %>
+  <%= link_to 'Back', shops_manage_path %>
+<% else %>
+  <%= link_to 'Back', shop_path(@order) %>
+<% end %>

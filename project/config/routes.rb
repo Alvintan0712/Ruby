@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
-  patch 'orders/:id/send', to: 'orders#send'
-  resources :orders
+  resources :orders do
+    patch 'send', to: 'orders#send_item'
+  end
   devise_for :users, controllers: { registrations: 'users/registrations' }
 
   get 'shops/manage', to: 'shops#manage'
