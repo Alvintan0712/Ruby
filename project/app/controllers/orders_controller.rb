@@ -117,6 +117,11 @@ class OrdersController < ApplicationController
     end
   end
 
+  # GET /orders/1/rate
+  def rate_item
+    # TODO: implement rate system
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.

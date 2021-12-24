@@ -47,6 +47,10 @@
   <div class="mb-4">
     <%= link_to 'Receive', order_receive_path(@order), class: "btn btn-warning", method: :patch %>
   </div>
+<% elsif @order.status == 3 && @order.user == current_user %>
+  <div class="mb-4">
+    <%= link_to 'Rate (TODO)', root_path, class: "btn btn-primary" %>
+  </div>
 <% end %>
 
 <% if @order.product.shop.user == current_user %>

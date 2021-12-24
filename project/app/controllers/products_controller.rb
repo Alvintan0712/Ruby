@@ -60,30 +60,6 @@ class ProductsController < ApplicationController
     end
   end
 
-  # GET /products/1/buy
-  def buy
-    print('action = ')
-    print(params[:commit])
-    @product = Product.find(params[:product_id])
-    @quantity = Integer(params[:quantity])
-    @cost = @product.price * @quantity
-    case params[:commit]
-    when 'Buy Now'
-      print('Buy Now action')
-    when 'Add To Cart'
-      print('Add To Cart action')
-    end
-  end
-
-  # PATCH/PUT /products/1/buy
-  def pay
-    @product = Product.find(params[:product_id])
-    respond_to do |format|
-      format.html { redirect_to @product, notice: 'Paid successfully.' }
-      format.json { render :show, status: :ok, location: @product }
-    end
-  end
-
 
   private
 

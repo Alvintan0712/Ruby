@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   resources :orders do
     patch 'send', to: 'orders#send_item'
     patch 'receive', to: 'orders#receive_item'
+    # TODO: get and patch rate routes
   end
   devise_for :users, controllers: { registrations: 'users/registrations' }
 
@@ -17,10 +18,7 @@ Rails.application.routes.draw do
   get 'users/withdraw', to: 'users#withdraw'
   patch 'users/withdraw', to: 'users#withdrawal'
 
-  resources :products do
-    get 'buy', to: 'products#buy'
-    patch 'buy', to: 'products#pay'
-  end
+  resources :products
 
   get 'about', to: 'home#about'
   root to: 'home#index'
