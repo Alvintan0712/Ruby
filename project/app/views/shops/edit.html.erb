@@ -1,6 +1,5 @@
-<h1>Editing Shop</h1>
+<h1>Rename Shop</h1>
 
-<%= render 'form', shop: @shop %>
+<%= render 'form', shop: @shop, action: "Rename" %>
 
-<%= link_to 'Show', @shop %> |
-<%= link_to 'Back', shops_path %>
+<%= link_to 'Back', shops_manage_path %>

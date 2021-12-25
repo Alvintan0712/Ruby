@@ -1,5 +1,3 @@
-<p id="notice"><%= notice %></p>
-
 <p>
   <strong>Name:</strong>
   <%= @product.name %>
@@ -11,21 +9,8 @@
 </p>
 
 <p>
-  <strong>Price:</strong>
-  $<%= @product.price %>
-</p>
-
-<p>
-  <strong>Storage:</strong>
-  <%= @product.storage %>
-  <% if @product.storage == 0 %>
-    (Out Of Stock)
-  <% end %>
-</p>
-
-<p>
-  <strong>Sale:</strong>
-  <%= @product.sale %>
+  <strong>Specification:</strong>
+  <%= @product.specification %>
 </p>
 
 <p>
@@ -34,15 +19,32 @@
 </p>
 
 <% if current_user == @product.shop.user %>
-  <%= link_to 'Edit', edit_product_path(@product) %>
+  <% unless @items.empty? %>
+    <div class="mb-4">
+      <strong>Items:</strong>
+      <% @items.each do |item| %>
+          <%= link_to item.properties, product_item_path(@product, item), class: "btn btn-warning" %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <%= link_to 'Add Item', new_product_item_path(@product), class: "btn btn-primary" %>
+  <%= link_to 'Edit Product', edit_product_path(@product), class: "btn btn-secondary" %>
 <% else %>
   <%= form_with url: new_order_path, method: :get do |form| %>
-    <div class="mb-4 row row-cols-lg-auto g-2 align-items-center">
-      <%= form.label "quantity:", class: "form-label" %>
-      <div class="col-12">
-        <%= form.number_field :quantity, in: 1..@product.storage, value: 1, class: "form-control" %>
-      </div>
-    </div>
+    <h4>Items</h4>
+    <% @items.each do |item| %>
+      <%= form.fields_for item, index: item.id do |item_form| %>
+        <%= item_form.hidden_field :item_id, value: item.id %>
+        <div class="mb-4 row row-cols-lg-auto g-2 align-items-center">
+          <%= item_form.label :quantity, item.properties, class: "form-label" %>
+          <div class="col-12">
+            <%= item_form.number_field :quantity, in: 0..item.stock, value: 0, class: "form-control" %>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+
     <%= form.hidden_field :product_id, value: @product.id %>
     <div class="actions mb-4">
       <%= form.submit "Buy Now", class: "btn btn-primary" %>

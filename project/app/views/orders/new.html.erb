@@ -1,15 +1,28 @@
-<p><%= notice %></p>
-
 <h1>Buy</h1>
+<p>Shop name: <%= @shop.name %></p>
 <p>Product name: <%= @order.product.name %></p>
-<p>Quantity: <%= @order.quantity %></p>
 <p>Cost: $<%= @order.price %></p>
+
+<% @order_items.each do |item| %>
+  <div class="mb-4">
+    item: <%= item.item.properties %>
+    quantity: <%= item.quantity %>,
+    cost: <%= item.cost %>
+  </div>
+<% end %>
 
 <%= form_with model: @order, url: orders_path, method: :post do |form| %>
   <%= form.hidden_field :product_id, value: @order.product.id %>
-  <%= form.hidden_field :quantity, value: @order.quantity %>
-  <%= form.hidden_field :price, value: @order.price %>
   <%= form.hidden_field :user_id, value: current_user.id %>
+  <%= form.hidden_field :price, value: @order.price %>
+
+  <% @items.each do |item, quantity| %>
+    <%= form.fields_for item, index: item.id do |item_form| %>
+      <%= item_form.hidden_field :item_id, value: item.id %>
+      <%= item_form.hidden_field :quantity, value: quantity %>
+    <% end %>
+  <% end %>
+
   <div class="mb-4">
     <%= form.label :address, class: "form-label" %>
     <%= form.text_area :address, size: "1x2", class: "form-control", required: "required" %>

@@ -1,0 +1,5 @@
+<%= render 'details', item: @item %>
+<div class="mb-4">
+  <%= link_to "Edit Item", edit_product_item_path(@item), class: "btn btn-primary" %>
+</div>
+<%= link_to "Back", product_path(@item.product) %>

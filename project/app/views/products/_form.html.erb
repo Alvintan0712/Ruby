@@ -21,14 +21,9 @@
     <%= form.text_area :description, class: "form-control" %>
   </div>
 
-  <div class="mb-4 row row-cols-lg-auto g-2 align-items-center">
-    <%= form.label "price:", class: "form-label" %>
-    <div class="col-sm"><%= form.number_field :price, class: "form-control" %></div>
-  </div>
-
-  <div class="mb-4 row row-cols-lg-auto g-2 align-items-center">
-    <%= form.label "storage:", class: "form-label" %>
-    <div class="col-sm"><%= form.number_field :storage, class: "form-control" %></div>
+  <div class="mb-4">
+    <%= form.label :specification, class: "form-label" %>
+    <%= form.text_area :specification, class: "form-control" %>
   </div>
 
   <%= form.hidden_field :shop_id, value: shop.id %>

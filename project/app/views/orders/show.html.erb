@@ -1,5 +1,3 @@
-<p id="notice"><%= notice %></p>
-
 <p>
   <strong>Product:</strong>
   <%= @order.product.name %>
@@ -12,12 +10,7 @@
 
 <p>
   <strong>Price:</strong>
-  <%= @order.price %>
-</p>
-
-<p>
-  <strong>Quantity:</strong>
-  <%= @order.quantity %>
+  $<%= @order.price %>
 </p>
 
 <p>
@@ -34,6 +27,19 @@
   <strong>Delivery:</strong>
   <%= @order.delivery %>
 </p>
+
+<div class="mb-4">
+  <strong>Item:</strong>
+  <% @order_items.each do |order_item| %>
+    <% if order_item.quantity.positive? %>
+      <div>
+        properties <%= order_item.item.properties %>,
+        quantity: <%= order_item.quantity %>,
+        cost: <%= order_item.cost %>
+      </div>
+    <% end %>
+  <% end %>
+</div>
 
 <% if @order.user == current_user && @order.status == 0 %>
   <div class="mb-4">

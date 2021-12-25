@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   devise_for :users, controllers: { registrations: 'users/registrations' }
 
   get 'shops/manage', to: 'shops#manage'
-  resources :shops
+  resources :shops, except: [ :index ]
 
   get 'users/show', to: 'users#show'
   get 'users/update_password', to: 'users#edit'
@@ -18,7 +18,9 @@ Rails.application.routes.draw do
   get 'users/withdraw', to: 'users#withdraw'
   patch 'users/withdraw', to: 'users#withdrawal'
 
-  resources :products
+  resources :products, except: [ :index ] do
+    resources :items, except: [ :index ]
+  end
 
   get 'about', to: 'home#about'
   root to: 'home#index'

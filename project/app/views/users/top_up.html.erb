@@ -4,7 +4,7 @@
   <div class="mb-4 row row-cols-lg-auto g-2 align-items-center">
     <%= form.label "value:", class: "form-label" %>
     <div class="col-12">
-      <%= form.text_field :value, class: "form-control" %>
+      <%= form.number_field :value, class: "form-control", min: "0" %>
     </div>
   </div>
   <div class="actions mb-4">

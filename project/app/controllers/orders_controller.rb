@@ -20,19 +20,21 @@ class OrdersController < ApplicationController
               else
                 'Unknown'
               end
+    @order_items = OrderItem.where(order: @order)
   end
 
   # GET /orders/new
   def new
-    @order = Order.new
-    @order.product = Product.find(params[:product_id])
-    @order.quantity = Integer(params[:quantity])
-    @order.price = @order.product.price * @order.quantity
-    @order.user = current_user
+    @order = parse_order
+    @order.price = get_price(params['item'])
+    @items = parse_items(params['item'])
+    @order_items = parse_order_items
+    @shop = order_shop
 
     # TODO: Add Order to Cart Table
     if params['commit'] == 'Add To Cart'
       if @order.save
+        add_to_cart
         redirect_to orders_path
       else
         render product_path(@order.product)
@@ -42,26 +44,27 @@ class OrdersController < ApplicationController
 
   # GET /orders/1/edit
   def edit
+    @shop = order_shop
+    @items = Item.where(product: @order.product)
+    @order_items = OrderItem.where(order: @order)
   end
 
   # POST /orders or /orders.json
   def create
     @order = Order.new(order_params)
-    id = Integer(params[:order][:user_id])
-    quantity = Integer(params[:order][:quantity])
-    @user = User.find(id)
-    @user.balance -= @order.price
-    @order.product.storage -= quantity
+    @order.price = get_price(params['order']['item'])
+    @items = parse_items(params['order']['item'])
+    @order_items = parse_order_items
+    @user = User.find(params[:order][:user_id].to_i)
+    @shop = order_shop
 
     respond_to do |format|
-      if @user.balance >= 0 && @order.product.storage >= 0 && @order.save
-        @user.save
-        @order.product.save
-        purchase(@order)
+      if enough && @order.save
+        save_all
         format.html { redirect_to @order, notice: 'Paid Successfully.' }
         format.json { render :show, status: :created, location: @order }
       else
-        format.html { render :new, status: :unprocessable_entity, notice: 'Poor Guy' }
+        format.html { render :new, status: :unprocessable_entity, alert: 'Poor Guy' }
         format.json { render json: @order.errors, status: :unprocessable_entity }
       end
     end
@@ -69,14 +72,15 @@ class OrdersController < ApplicationController
 
   # PATCH/PUT /orders/1 or /orders/1.json
   def update
-    @order = Order.find(params[:id])
-    id = Integer(params[:order][:user_id])
-    @user = User.find(id)
-    @user.balance -= @order.price
+    @items = parse_items(params['order']['item'])
+    @order.price = get_price(params['order']['item'])
+    @order_items = parse_order_items
+    @user = User.find(params[:order][:user_id].to_i)
+    @shop = order_shop
 
     respond_to do |format|
-      if @user.save && @order.update(order_params)
-        purchase(@order)
+      if enough && @order.save && @order.update(order_params)
+        save_all
         format.html { redirect_to @order, notice: 'Order was successfully updated.' }
         format.json { render :show, status: :ok, location: @order }
       else
@@ -131,16 +135,82 @@ class OrdersController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def order_params
-    params.require(:order).permit(:product_id, :user_id, :price, :address, :phone, :quantity, :delivery)
+    params.require(:order).permit(:product_id, :user_id, :address, :phone, :delivery, :price)
   end
 
-  def purchase(order)
-    seller = order.product.shop.user
-    seller.balance += order.price
-    order.product.sale += order.quantity
-    order.status = 1
-    order.save
-    order.product.save
+  def order_item_params
+    params.permit(:order_id, :quantity, :cost)
+  end
+
+  def order_shop
+    @order.product.shop
+  end
+
+  def parse_order
+    order = Order.new
+    order.product = Product.find(params[:product_id])
+    order.user = current_user
+    order
+  end
+
+  def get_price(items)
+    price = 0
+    items.each do |_, value|
+      quantity = value['quantity'].to_i
+      item = Item.find(value['item_id'].to_i)
+      price += item.cost * quantity
+    end
+    price
+  end
+
+  def parse_order_items
+    order_items = Array.new
+    @items.each do |item, quantity|
+      cost = item.cost * quantity
+      order_items.append(OrderItem.new({'item_id' => item.id, 'quantity' => quantity, 'cost' => cost}))
+    end
+    order_items
+  end
+
+  def parse_items(dict)
+    items = Array.new
+    dict.each do |_, value|
+      item = Item.find(value['item_id'].to_i)
+      quantity = value['quantity'].to_i
+      items.append([item, quantity])
+    end
+    items
+  end
+
+  def enough
+    @user.balance -= @order.price
+    stock_positive = true
+    @order_items.each do |order_item|
+      order_item.item.stock -= order_item.quantity
+      order_item.item.sale  += order_item.quantity
+      stock_positive &= order_item.item.stock.positive?
+    end
+    @user.balance.positive? && stock_positive
+  end
+
+  def add_to_cart
+    @order_items.each do |order_item|
+      order_item.order = @order
+      order_item.item.save
+      order_item.save
+    end
+  end
+
+  def save_all
+    add_to_cart
+    purchase
+  end
+
+  def purchase
+    seller = order_shop.user
+    seller.balance += @order.price
+    @order.update(status: 1)
+    @order.user.save
     seller.save
   end
 end

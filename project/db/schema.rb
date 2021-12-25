@@ -10,19 +10,40 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_24_064311) do
+ActiveRecord::Schema.define(version: 2021_12_25_073255) do
 
-  create_table "orders", force: :cascade do |t|
-    t.integer "product_id"
-    t.integer "user_id"
-    t.decimal "price"
+  create_table "items", force: :cascade do |t|
+    t.integer "product_id", null: false
+    t.decimal "cost"
+    t.integer "stock"
+    t.integer "sale", default: 0
+    t.string "properties"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["product_id"], name: "index_items_on_product_id"
+  end
+
+  create_table "order_items", force: :cascade do |t|
+    t.integer "item_id", null: false
+    t.integer "order_id", null: false
     t.integer "quantity"
-    t.integer "status", default: 0
+    t.decimal "cost"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["item_id"], name: "index_order_items_on_item_id"
+    t.index ["order_id"], name: "index_order_items_on_order_id"
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "product_id"
     t.text "address"
     t.string "phone"
+    t.decimal "price"
+    t.integer "status", default: 0
     t.string "delivery"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.index ["product_id"], name: "index_orders_on_product_id"
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
@@ -30,11 +51,9 @@ ActiveRecord::Schema.define(version: 2021_12_24_064311) do
   create_table "products", force: :cascade do |t|
     t.string "name"
     t.text "description"
-    t.decimal "price"
-    t.integer "storage"
+    t.text "specification"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "sale", default: 0
     t.integer "shop_id", null: false
     t.index ["shop_id"], name: "index_products_on_shop_id"
   end
@@ -63,6 +82,9 @@ ActiveRecord::Schema.define(version: 2021_12_24_064311) do
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
+  add_foreign_key "items", "products"
+  add_foreign_key "order_items", "items"
+  add_foreign_key "order_items", "orders"
   add_foreign_key "products", "shops"
   add_foreign_key "shops", "users"
 end

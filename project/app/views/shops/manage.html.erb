@@ -1,4 +1,4 @@
-<p id="notice"><%= notice %></p>
+<h2 class="mb-4">My Shop</h2>
 
 <div class="container">
   <ul class="nav nav-pills mb-4">
@@ -24,6 +24,10 @@
         <strong>Owner:</strong>
         <%= @shop.user.username %>
       </div>
+      <div class="mb-4">
+        <%= link_to 'Rename', edit_shop_path(@shop), class: "btn btn-secondary" %>
+      </div>
+
     </div>
     <div class="tab-pane container fade" id="product">
       <div class="mb-4">
@@ -38,19 +42,22 @@
       </div>
 
       <div class="mb-4">
-        <%= link_to 'Add Product', new_product_path, class: "btn btn-primary" %>
+        <%= link_to 'Add Product', new_product_path, class: "btn btn-secondary" %>
       </div>
     </div>
     <div class="tab-pane container fade" id="order">
       <div class="mb-4">
-        <% @orders.each do |order| %>
-          <div>
-            <%= order.id %>.
-            <%= order.product.name %>
-            <%= order.user.username %>
-            <%= link_to 'Show', order %> |
-            <%= link_to 'Cancel', order, method: :delete %>
-          </div>
+        <% if @orders.empty? %>
+          <p>Don't have any orders yet</p>
+        <% else %>
+          <% @orders.each do |order| %>
+            <div>
+              <%= order.id %>.
+              <%= order.user.username %>
+              <%= link_to 'Show', order %> |
+              <%= link_to 'Cancel', order, method: :delete %>
+            </div>
+          <% end %>
         <% end %>
       </div>
     </div>
