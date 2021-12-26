@@ -1,13 +1,74 @@
-<h1>My Orders</h1>
+<h2 class="mb-4">My Orders</h2>
 
-<% @orders.each do |order| %>
-  <div>
-    <%= order.product.name %>
-    $<%= order.price %>
-    <%= link_to 'Show', order %>
-    <% if order.status == 0 %>
-      <%= link_to 'Cancel', order, method: :delete, data: { confirm: 'Are you sure?' } %>
-    <% end %>
+<div class="container">
+  <ul class="nav nav-pills mb-4">
+    <li class="nav-item">
+      <a class="nav-link active" data-bs-toggle="pill" href="#send">To Send</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="pill" href="#receive">To Receive</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="pill" href="#rate">To Rate</a>
+    </li>
+  </ul>
+
+  <div class="tab-content">
+    <div class="tab-pane container active" id="send">
+      <div class="mb-4">
+        <% if @orders_send.empty? %>
+          <p>Buy somethings larh</p>
+        <% else %>
+          <% @orders_send.each do |order| %>
+            <div>
+              <%= order.product.name %>
+              $<%= order.price %>
+              <%= link_to 'Show', order %>
+              <% if order.status == 0 %>
+                <%= link_to 'Cancel', order, method: :delete, data: { confirm: 'Are you sure?' } %>
+              <% end %>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+    <div class="tab-pane container fade" id="receive">
+      <div class="mb-4">
+        <% if @orders_receive.empty? %>
+          <p>Call the seller send larh</p>
+        <% else %>
+          <% @orders_receive.each do |order| %>
+            <div>
+              <%= order.product.name %>
+              $<%= order.price %>
+              <%= link_to 'Show', order %>
+              <% if order.status == 0 %>
+                <%= link_to 'Cancel', order, method: :delete, data: { confirm: 'Are you sure?' } %>
+              <% end %>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+    <div class="tab-pane container fade" id="rate">
+      <div class="mb-4">
+        <% if @orders_rate.empty? %>
+          <p>Buy somethings larh</p>
+        <% else %>
+          <% @orders_rate.each do |order| %>
+            <div>
+              <%= order.product.name %>
+              $<%= order.price %>
+              <%= link_to 'Show', order %>
+              <% if order.status == 0 %>
+                <%= link_to 'Cancel', order, method: :delete, data: { confirm: 'Are you sure?' } %>
+              <% end %>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
   </div>
-<% end %>
 
+  <%= link_to 'Back', root_path %>
+</div>

@@ -3,7 +3,9 @@ class OrdersController < ApplicationController
 
   # GET /orders or /orders.json
   def index
-    @orders = Order.where(user: current_user)
+    @orders_send = Order.where(user: current_user, status: 1)
+    @orders_receive = Order.where(user: current_user, status: 2)
+    @orders_rate = Order.where(user: current_user, status: 3)
   end
 
   # GET /orders/1 or /orders/1.json

@@ -31,13 +31,17 @@
     </div>
     <div class="tab-pane container fade" id="product">
       <div class="mb-4">
-        <% @products.each do |product| %>
-          <div>
-            <%= product.name %>
-            <%= product.shop.name %>
-            <%= link_to 'Show', product %> |
-            <%= link_to 'Delete', product, method: :delete %>
-          </div>
+        <% if @products.empty? %>
+          <p>Don't have any products yet</p>
+        <% else %>
+          <% @products.each do |product| %>
+            <div>
+              <%= product.name %>
+              <%= product.shop.name %>
+              <%= link_to 'Show', product %> |
+              <%= link_to 'Delete', product, method: :delete %>
+            </div>
+          <% end %>
         <% end %>
       </div>
 
