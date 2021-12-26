@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'cart', to: 'orders#cart'
   resources :orders do
     patch 'send', to: 'orders#send_item'
     patch 'receive', to: 'orders#receive_item'

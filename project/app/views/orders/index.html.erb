@@ -24,9 +24,6 @@
               <%= order.product.name %>
               $<%= order.price %>
               <%= link_to 'Show', order %>
-              <% if order.status == 0 %>
-                <%= link_to 'Cancel', order, method: :delete, data: { confirm: 'Are you sure?' } %>
-              <% end %>
             </div>
           <% end %>
         <% end %>
@@ -42,9 +39,6 @@
               <%= order.product.name %>
               $<%= order.price %>
               <%= link_to 'Show', order %>
-              <% if order.status == 0 %>
-                <%= link_to 'Cancel', order, method: :delete, data: { confirm: 'Are you sure?' } %>
-              <% end %>
             </div>
           <% end %>
         <% end %>
@@ -60,9 +54,6 @@
               <%= order.product.name %>
               $<%= order.price %>
               <%= link_to 'Show', order %>
-              <% if order.status == 0 %>
-                <%= link_to 'Cancel', order, method: :delete, data: { confirm: 'Are you sure?' } %>
-              <% end %>
             </div>
           <% end %>
         <% end %>

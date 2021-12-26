@@ -8,6 +8,10 @@ class OrdersController < ApplicationController
     @orders_rate = Order.where(user: current_user, status: 3)
   end
 
+  def cart
+    @cart = Order.where(user: current_user, status: 0)
+  end
+
   # GET /orders/1 or /orders/1.json
   def show
     @status = case @order.status

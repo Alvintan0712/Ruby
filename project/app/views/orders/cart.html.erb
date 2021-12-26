@@ -1,0 +1,18 @@
+<h2>My Cart</h2>
+
+<div class="mb-4">
+  <% if @cart.empty? %>
+    <p>Add something you want to buy</p>
+  <% else %>
+    <% @cart.each do |order| %>
+      <div>
+        <%= order.product.name %>
+        $<%= order.price %>
+        <%= link_to 'Show', order %>
+        <%= link_to 'Cancel', order, method: :delete, data: { confirm: 'Are you sure?' } %>
+      </div>
+    <% end %>
+  <% end %>
+</div>
+
+<%= link_to 'Back', root_path %>
