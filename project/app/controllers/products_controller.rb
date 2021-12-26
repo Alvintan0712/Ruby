@@ -4,7 +4,7 @@ class ProductsController < ApplicationController
 
   # GET /products or /products.json
   def index
-    @shop, _ = Shop.where(user: current_user)
+    @shop = Shop.find_by(user: current_user)
     @products = Product.where(shop: @shop)
   end
 
@@ -13,17 +13,18 @@ class ProductsController < ApplicationController
     @items = Item.where(product: @product)
     @shop = @product.shop
     @is_favourite = Favourite.find_by(user: current_user, product: @product)
+    @rates = Rate.where(product: @product)
   end
 
   # GET /products/new
   def new
     @product = Product.new
-    @shop, _ = Shop.where(user: current_user)
+    @shop = Shop.find_by(user: current_user)
   end
 
   # GET /products/1/edit
   def edit
-    @shop, _ = Shop.where(user: current_user)
+    @shop = Shop.find_by(user: current_user)
   end
 
   # POST /products or /products.json

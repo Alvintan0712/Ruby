@@ -25,7 +25,6 @@ class UsersController < ApplicationController
       bypass_sign_in(@user)
       redirect_to root_path
     else
-      print("change failed\n")
       render 'edit'
     end
   end
@@ -38,7 +37,7 @@ class UsersController < ApplicationController
     @user = current_user
     value = params[:value].to_f
 
-    if value.is_a?(Float) and value.positive?
+    if value.is_a?(Float) && value.positive?
       @user.balance += value
     else
       render 'top_up'
@@ -64,17 +63,17 @@ class UsersController < ApplicationController
     @user = current_user
     value = params[:value].to_f
 
-    if value.is_a?(Float) and value.positive? and value <= @user.balance
+    if value.is_a?(Float) && value.positive? && (value <= @user.balance)
       @user.balance -= value
     else
-      render 'withdraw'
+      redirect_back fallback_location: users_withdraw_path, notice: 'So Poor'
       return
     end
 
     if @user.save
       redirect_to users_show_balance_path
     else
-      render 'withdraw'
+      redirect_back fallback_location: users_withdraw_path, notice: 'So Poor'
     end
   end
 

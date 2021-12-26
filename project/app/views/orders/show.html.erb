@@ -55,7 +55,11 @@
   </div>
 <% elsif @order.status == 3 && @order.user == current_user %>
   <div class="mb-4">
-    <%= link_to 'Rate (TODO)', root_path, class: "btn btn-primary" %>
+    <%= link_to 'Rate', new_order_rate_path(@order), class: "btn btn-primary" %>
+  </div>
+<% elsif @order.status == 4 && @order.user == current_user %>
+  <div class="mb-4">
+    <%= link_to 'Edit Rate', edit_order_rate_path(@order, @rate), class: "btn btn-primary" %>
   </div>
 <% end %>
 

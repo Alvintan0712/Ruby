@@ -3,7 +3,10 @@
 <div class="container">
   <ul class="nav nav-pills mb-4">
     <li class="nav-item">
-      <a class="nav-link active" data-bs-toggle="pill" href="#send">To Send</a>
+      <a class="nav-link active" data-bs-toggle="pill" href="#all">All</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="pill" href="#send">To Send</a>
     </li>
     <li class="nav-item">
       <a class="nav-link" data-bs-toggle="pill" href="#receive">To Receive</a>
@@ -14,7 +17,22 @@
   </ul>
 
   <div class="tab-content">
-    <div class="tab-pane container active" id="send">
+    <div class="tab-pane container active" id="all">
+      <div class="mb-4">
+        <% if @orders.empty? %>
+          <p>Buy somethings larh</p>
+        <% else %>
+          <% @orders.each do |order| %>
+            <div>
+              <%= order.product.name %>
+              $<%= order.price %>
+              <%= link_to 'Show', order %>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+    <div class="tab-pane container fade" id="send">
       <div class="mb-4">
         <% if @orders_send.empty? %>
           <p>Buy somethings larh</p>

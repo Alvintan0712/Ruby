@@ -1,0 +1,25 @@
+<%= form_with(model: rate, url: url) do |form| %>
+  <% if rate.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(rate.errors.count, "error") %> prohibited this rate from being saved:</h2>
+
+      <ul>
+        <% rate.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= form.hidden_field :user_id, value: current_user.id %>
+  <%= form.hidden_field :product_id, value: @order.product.id %>
+
+  <div class="mb-4">
+    <%= form.label :review, class: "form-label" %>
+    <%= form.text_area :review, class: "form-control" %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit class: "btn btn-primary" %>
+  </div>
+<% end %>

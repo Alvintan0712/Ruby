@@ -18,45 +18,55 @@
   <%= @product.shop.name %>
 </p>
 
-<% if current_user == @product.shop.user %>
-  <% unless @items.empty? %>
-    <div class="mb-4">
-      <strong>Items:</strong>
-      <% @items.each do |item| %>
-          <%= link_to item.properties, product_item_path(@product, item), class: "btn btn-warning" %>
-      <% end %>
-    </div>
-  <% end %>
-
-  <%= link_to 'Add Item', new_product_item_path(@product), class: "btn btn-primary" %>
-  <%= link_to 'Edit Product', edit_product_path(@product), class: "btn btn-secondary" %>
-<% else %>
-  <%= form_with url: new_order_path, method: :get do |form| %>
-    <h4>Items</h4>
-    <% @items.each do |item| %>
-      <%= form.fields_for item, index: item.id do |item_form| %>
-        <%= item_form.hidden_field :item_id, value: item.id %>
-        <div class="mb-4 row row-cols-lg-auto g-2 align-items-center">
-          <%= item_form.label :quantity, item.properties, class: "form-label" %>:
-          $<%= item.cost %>,
-          <%= item.stock %>
-          <div class="col-12">
-            <%= item_form.number_field :quantity, in: 0..item.stock, value: 0, class: "form-control" %>
-          </div>
-        </div>
-      <% end %>
+<div class="mb-4">
+  <% if current_user == @product.shop.user %>
+    <% unless @items.empty? %>
+      <div class="mb-4">
+        <strong>Items:</strong>
+        <% @items.each do |item| %>
+            <%= link_to item.properties, product_item_path(@product, item), class: "btn btn-warning" %>
+        <% end %>
+      </div>
     <% end %>
 
-    <%= form.hidden_field :product_id, value: @product.id %>
-    <div class="actions mb-4">
-      <%= form.submit "Buy Now", class: "btn btn-primary" %>
-      <%= form.submit "Add To Cart", class: "btn btn-secondary" %>
-    </div>
-  <% end %>
-
-  <% if @is_favourite %>
-    <%= link_to "Remove Favourite", product_favourites_path(@product), class: "btn btn-warning", method: :delete %>
+    <%= link_to 'Add Item', new_product_item_path(@product), class: "btn btn-primary" %>
+    <%= link_to 'Edit Product', edit_product_path(@product), class: "btn btn-secondary" %>
   <% else %>
-    <%= link_to "Add To Favourite", product_favourites_path(@product), class: "btn btn-primary", method: :patch %>
+    <%= form_with url: new_order_path, method: :get do |form| %>
+      <h4>Items</h4>
+      <% @items.each do |item| %>
+        <%= form.fields_for item, index: item.id do |item_form| %>
+          <%= item_form.hidden_field :item_id, value: item.id %>
+          <div class="mb-4 row row-cols-lg-auto g-2 align-items-center">
+            <%= item_form.label :quantity, item.properties, class: "form-label" %>:
+            $<%= item.cost %>,
+            <%= item.stock %>
+            <div class="col-12">
+              <%= item_form.number_field :quantity, in: 0..item.stock, value: 0, class: "form-control" %>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+
+      <%= form.hidden_field :product_id, value: @product.id %>
+      <div class="actions mb-4">
+        <%= form.submit "Buy Now", class: "btn btn-primary" %>
+        <%= form.submit "Add To Cart", class: "btn btn-secondary" %>
+      </div>
+    <% end %>
+
+    <% if @is_favourite %>
+      <%= link_to "Remove Favourite", product_favourites_path(@product), class: "btn btn-warning", method: :delete %>
+    <% else %>
+      <%= link_to "Add To Favourite", product_favourites_path(@product), class: "btn btn-primary", method: :patch %>
+    <% end %>
   <% end %>
-<% end %>
+</div>
+
+<h4>Rate</h4>
+<div class="mb-4">
+  <% @rates.each do |rate| %>
+    <p>Review: <%= rate.review %>, User: <%= rate.user.username %></p>
+  <% end %>
+</div>
+

@@ -19,7 +19,7 @@ class ShopsController < ApplicationController
   def manage
     @shop = Shop.find_by(user: current_user)
     @products = Product.where(shop: @shop)
-    @orders = Order.where(products: @products)
+    @orders = Order.where(products: @products, status: [1,2,3])
   end
 
   # GET /shops/new
@@ -40,7 +40,7 @@ class ShopsController < ApplicationController
         format.html { redirect_to shops_manage_path, notice: 'Shop was successfully created.' }
         format.json { render :manage, status: :created, location: @shop }
       else
-        format.html { redirect_to root_path, status: :unprocessable_entity }
+        format.html { redirect_to root_path, status: :unprocessable_entity, notice: 'Shop Create failed' }
         format.json { render json: @shop.errors, status: :unprocessable_entity }
       end
     end

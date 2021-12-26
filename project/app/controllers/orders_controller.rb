@@ -3,6 +3,7 @@ class OrdersController < ApplicationController
 
   # GET /orders or /orders.json
   def index
+    @orders = Order.where(user: current_user, status: [1,2,3,4])
     @orders_send = Order.where(user: current_user, status: 1)
     @orders_receive = Order.where(user: current_user, status: 2)
     @orders_rate = Order.where(user: current_user, status: 3)
@@ -23,10 +24,13 @@ class OrdersController < ApplicationController
                 'To Receive'
               when 3
                 'To Rate'
+              when 4
+                'Done'
               else
                 'Unknown'
               end
     @order_items = OrderItem.where(order: @order)
+    @rate = Rate.find_by(product: @order.product, user: current_user)
   end
 
   # GET /orders/new
@@ -64,13 +68,14 @@ class OrdersController < ApplicationController
     @user = User.find(params[:order][:user_id].to_i)
     @shop = order_shop
 
+    product = @order.product
     respond_to do |format|
       if enough && @order.save
         save_all
         format.html { redirect_to @order, notice: 'Paid Successfully.' }
         format.json { render :show, status: :created, location: @order }
       else
-        format.html { render :new, status: :unprocessable_entity, alert: 'Poor Guy' }
+        format.html { redirect_to product_path(product), notice: 'Balance not enough or out of stock' }
         format.json { render json: @order.errors, status: :unprocessable_entity }
       end
     end
@@ -93,7 +98,7 @@ class OrdersController < ApplicationController
         format.html { redirect_to @order, notice: 'Order was successfully updated.' }
         format.json { render :show, status: :ok, location: @order }
       else
-        format.html { render :edit, status: :unprocessable_entity }
+        format.html { redirect_to @order, notice: 'Poor Guy' }
         format.json { render json: @order.errors, status: :unprocessable_entity }
       end
     end
@@ -128,11 +133,6 @@ class OrdersController < ApplicationController
       format.html { redirect_to orders_path, notice: 'Parcel Received.' }
       format.json { head :no_content }
     end
-  end
-
-  # GET /orders/1/rate
-  def rate_item
-    # TODO: implement rate system
   end
 
   private

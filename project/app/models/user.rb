@@ -33,4 +33,10 @@ class User < ApplicationRecord
 
   # Followship
   has_many :followships, dependent: :destroy
+
+  # Favourite
+  has_many :favourites, dependent: :destroy
+
+  # Favourite
+  has_many :rates, dependent: :nullify
 end
