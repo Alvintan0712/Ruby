@@ -25,10 +25,10 @@ class OrdersController < ApplicationController
 
   # GET /orders/new
   def new
-    @order = parse_order
+    @order = new_order
     @order.price = get_price(params['item'])
     @items = parse_items(params['item'])
-    @order_items = parse_order_items
+    @order_items = new_order_items
     @shop = order_shop
 
     # TODO: Add Order to Cart Table
@@ -54,7 +54,7 @@ class OrdersController < ApplicationController
     @order = Order.new(order_params)
     @order.price = get_price(params['order']['item'])
     @items = parse_items(params['order']['item'])
-    @order_items = parse_order_items
+    @order_items = new_order_items
     @user = User.find(params[:order][:user_id].to_i)
     @shop = order_shop
 
@@ -74,13 +74,16 @@ class OrdersController < ApplicationController
   def update
     @items = parse_items(params['order']['item'])
     @order.price = get_price(params['order']['item'])
-    @order_items = parse_order_items
-    @user = User.find(params[:order][:user_id].to_i)
+    @order.address = params['order']['address']
+    @order.phone = params['order']['phone']
+    @order_items = OrderItem.where(order: @order)
+    @user = @order.user
     @shop = order_shop
 
     respond_to do |format|
-      if enough && @order.save && @order.update(order_params)
+      if enough && @order.save
         save_all
+        update_order_items
         format.html { redirect_to @order, notice: 'Order was successfully updated.' }
         format.json { render :show, status: :ok, location: @order }
       else
@@ -146,7 +149,7 @@ class OrdersController < ApplicationController
     @order.product.shop
   end
 
-  def parse_order
+  def new_order
     order = Order.new
     order.product = Product.find(params[:product_id])
     order.user = current_user
@@ -163,13 +166,20 @@ class OrdersController < ApplicationController
     price
   end
 
-  def parse_order_items
+  def new_order_items
     order_items = Array.new
     @items.each do |item, quantity|
       cost = item.cost * quantity
       order_items.append(OrderItem.new({'item_id' => item.id, 'quantity' => quantity, 'cost' => cost}))
     end
     order_items
+  end
+
+  def update_order_items
+    @items.each do |item, quantity|
+      cost = item.cost * quantity
+      @order_items.update(quantity: quantity, cost: cost)
+    end
   end
 
   def parse_items(dict)
@@ -193,6 +203,11 @@ class OrdersController < ApplicationController
     @user.balance.positive? && stock_positive
   end
 
+  def save_all
+    add_to_cart
+    purchase
+  end
+
   def add_to_cart
     @order_items.each do |order_item|
       order_item.order = @order
@@ -201,16 +216,11 @@ class OrdersController < ApplicationController
     end
   end
 
-  def save_all
-    add_to_cart
-    purchase
-  end
-
   def purchase
     seller = order_shop.user
     seller.balance += @order.price
     @order.update(status: 1)
-    @order.user.save
+    @user.save
     seller.save
   end
 end
