@@ -37,7 +37,9 @@
       <%= form.fields_for item, index: item.id do |item_form| %>
         <%= item_form.hidden_field :item_id, value: item.id %>
         <div class="mb-4 row row-cols-lg-auto g-2 align-items-center">
-          <%= item_form.label :quantity, item.properties, class: "form-label" %>
+          <%= item_form.label :quantity, item.properties, class: "form-label" %>:
+          $<%= item.cost %>,
+          <%= item.stock %>
           <div class="col-12">
             <%= item_form.number_field :quantity, in: 0..item.stock, value: 0, class: "form-control" %>
           </div>

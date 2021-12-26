@@ -16,10 +16,9 @@
 <div class="mb-4">
   <% @products.each do |product| %>
     <div>
-      <%= product.name %>
-      <%= product.shop.name %>
-      <%= link_to 'Show', product %>
+      <%= link_to product.name, product, class: "btn btn-primary" %>
     </div>
   <% end %>
 </div>
+
 <%= link_to 'Back', root_path %>
