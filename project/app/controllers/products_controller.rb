@@ -12,6 +12,7 @@ class ProductsController < ApplicationController
   def show
     @items = Item.where(product: @product)
     @shop = @product.shop
+    @is_favourite = Favourite.find_by(user: current_user, product: @product)
   end
 
   # GET /products/new

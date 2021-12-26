@@ -1,0 +1,11 @@
+<h2>Favourite Products</h2>
+
+<div class="mb-4">
+  <% if @favourites.empty? %>
+    <p>find somethings you like</p>
+  <% else %>
+    <% @favourites.each do |favourite| %>
+      <div><%= link_to favourite.product.name, favourite.product %></div>
+    <% end %>
+  <% end %>
+</div>

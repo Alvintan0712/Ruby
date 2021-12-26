@@ -53,4 +53,10 @@
       <%= form.submit "Add To Cart", class: "btn btn-secondary" %>
     </div>
   <% end %>
+
+  <% if @is_favourite %>
+    <%= link_to "Remove Favourite", product_favourites_path(@product), class: "btn btn-warning", method: :delete %>
+  <% else %>
+    <%= link_to "Add To Favourite", product_favourites_path(@product), class: "btn btn-primary", method: :patch %>
+  <% end %>
 <% end %>

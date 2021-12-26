@@ -17,7 +17,7 @@ class ShopsController < ApplicationController
 
   # GET /shops/manage
   def manage
-    @shop, _ = Shop.where(user: current_user)
+    @shop = Shop.find_by(user: current_user)
     @products = Product.where(shop: @shop)
     @orders = Order.where(products: @products)
   end

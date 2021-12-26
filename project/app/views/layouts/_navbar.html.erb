@@ -12,6 +12,7 @@
           <li class="nav-item"><%= link_to "Cart", cart_path, class: "nav-link active" %></li>
           <li class="nav-item"><%= link_to "Shop", shops_manage_path, class: "nav-link active" %></li>
           <li class="nav-item"><%= link_to "Follows", followships_path, class: "nav-link active" %></li>
+          <li class="nav-item"><%= link_to "Favourite", favourites_path, class: "nav-link active" %></li>
         <% end %>
       </ul>
       <% if user_signed_in? %>
@@ -21,22 +22,12 @@
               <%= current_user.username %>
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-              <li>
-                <%= link_to "Profile", users_show_path, class: "dropdown-item" %>
-              </li>
-              <li>
-                <%= link_to "My Wallet", users_show_balance_path, class: "dropdown-item" %>
-              </li>
-              <li>
-                <%= link_to "Edit", edit_user_registration_path, class: "dropdown-item" %>
-              </li>
-              <li>
-                <%= link_to "Change Password", users_update_password_path, class: "dropdown-item" %>
-              </li>
+              <li><%= link_to "Profile", users_show_path, class: "dropdown-item" %></li>
+              <li><%= link_to "My Wallet", users_show_balance_path, class: "dropdown-item" %></li>
+              <li><%= link_to "Edit", edit_user_registration_path, class: "dropdown-item" %></li>
+              <li><%= link_to "Change Password", users_update_password_path, class: "dropdown-item" %></li>
               <li><hr class="dropdown-divider"></li>
-              <li>
-                <%= link_to "Sign Out", destroy_user_session_path, method: :delete, class: "dropdown-item" %>
-              </li>
+              <li><%= link_to "Sign Out", destroy_user_session_path, method: :delete, class: "dropdown-item" %></li>
             </ul>
           </li>
         </ul>

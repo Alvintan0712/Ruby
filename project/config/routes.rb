@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'favourites', to: 'favourites#index'
   # Followships
   get 'followships', to: 'followships#index'
 
@@ -27,6 +28,8 @@ Rails.application.routes.draw do
 
   resources :products, except: [ :index ] do
     resources :items, except: [ :index ]
+    patch 'favourites', to: 'favourites#create'
+    delete 'favourites', to: 'favourites#destroy'
   end
 
   get 'about', to: 'home#about'
