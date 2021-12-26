@@ -21,4 +21,11 @@
   <% end %>
 </div>
 
+<div class="mb-4">
+  <% if @is_follow %>
+    <%= link_to 'UnFollow', shop_unfollow_path(@shop), class: "btn btn-danger", method: :delete %>
+  <%  else  %>
+    <%= link_to 'Follow', shop_follow_path(@shop), class: "btn btn-primary", method: :patch %>
+  <% end %>
+</div>
 <%= link_to 'Back', root_path %>

@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_25_073255) do
+ActiveRecord::Schema.define(version: 2021_12_26_104411) do
+
+  create_table "followships", force: :cascade do |t|
+    t.integer "shop_id", null: false
+    t.integer "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["shop_id"], name: "index_followships_on_shop_id"
+    t.index ["user_id"], name: "index_followships_on_user_id"
+  end
 
   create_table "items", force: :cascade do |t|
     t.integer "product_id", null: false
@@ -82,6 +91,8 @@ ActiveRecord::Schema.define(version: 2021_12_25_073255) do
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
+  add_foreign_key "followships", "shops"
+  add_foreign_key "followships", "users"
   add_foreign_key "items", "products"
   add_foreign_key "order_items", "items"
   add_foreign_key "order_items", "orders"

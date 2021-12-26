@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  # Followships
+  get 'followships', to: 'followships#index'
+
   get 'cart', to: 'orders#cart'
   resources :orders do
     patch 'send', to: 'orders#send_item'
@@ -8,7 +11,10 @@ Rails.application.routes.draw do
   devise_for :users, controllers: { registrations: 'users/registrations' }
 
   get 'shops/manage', to: 'shops#manage'
-  resources :shops, except: [ :index ]
+  resources :shops, except: [ :index ] do
+    patch 'follow', to: 'followships#create'
+    delete 'unfollow', to: 'followships#destroy'
+  end
 
   get 'users/show', to: 'users#show'
   get 'users/update_password', to: 'users#edit'

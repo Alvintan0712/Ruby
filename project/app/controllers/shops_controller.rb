@@ -6,11 +6,13 @@ class ShopsController < ApplicationController
   # GET /shops or /shops.json
   def index
     @shops = Shop.where.not(user: current_user)
+    @is_follow = Followship.where(user: current_user, shop: @shop).exists?
   end
 
   # GET /shops/1 or /shops/1.json
   def show
     @products = Product.where(shop: @shop)
+    @is_follow = Followship.find_by(user: current_user, shop: @shop)
   end
 
   # GET /shops/manage

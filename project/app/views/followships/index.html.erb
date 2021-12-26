@@ -1,0 +1,11 @@
+<h2>Follow Shops</h2>
+
+<div class="mb-4">
+  <% if @followships.empty? %>
+    <p>Follow shops that you like</p>
+  <% else %>
+    <% @followships.each do |followship| %>
+      <div><%= link_to followship.shop.name, followship.shop %></div>
+    <% end %>
+  <% end %>
+</div>

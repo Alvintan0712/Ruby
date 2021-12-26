@@ -30,4 +30,7 @@ class User < ApplicationRecord
 
   # Shop
   has_one :shop, dependent: :destroy
+
+  # Followship
+  has_many :followships, dependent: :destroy
 end
