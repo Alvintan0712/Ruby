@@ -1,0 +1,12 @@
+deploy:
+  stage: deploy
+  script:
+    - pumactl stop -P ~/project/tmp/pids/server.pid || true
+    - rsync -arv --delete ./project ~
+    - cd ~/project
+    - bundle install
+    - rails db:migrate
+    - rails server -d -b 0.0.0.0 -p 5000
+    - echo success
+  only:
+    - project
