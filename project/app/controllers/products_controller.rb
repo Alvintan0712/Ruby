@@ -14,6 +14,7 @@ class ProductsController < ApplicationController
     @shop = @product.shop
     @is_favourite = Favourite.find_by(user: current_user, product: @product)
     @rates = Rate.where(product: @product)
+    @image = Image.find_by(product: @product)
   end
 
   # GET /products/new

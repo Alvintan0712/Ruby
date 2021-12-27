@@ -17,7 +17,7 @@
       <% else %>
         <% @products.each do |product| %>
           <div class="mb-4">
-            <%= product.name %>
+            <%= link_to product.name, product %>
           </div>
         <% end %>
       <% end %>
@@ -27,9 +27,7 @@
         <p>Can't find any <%= params[:query] %> shops</p>
       <% else %>
         <% @shops.each do |shop| %>
-          <div class="mb-4">
-            <%= shop.name %>
-          </div>
+          <%= link_to shop.name, shop %>
         <% end %>
       <% end %>
     </div>

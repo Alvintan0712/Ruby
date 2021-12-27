@@ -1,15 +1,19 @@
-<h1>Home</h1>
+<h1 class="mb-4">Home</h1>
 
 <%= form_with url: search_path, class: "d-flex mb-4", method: :get do |form| %>
   <%= form.text_field :query, class: "form-control me-2", placeholder: "Search" %>
   <%= form.submit "Search", class: "btn btn-outline-success" %>
 <% end %>
 
-<h2>Buy Somethings</h2>
-<% @shops.each do |shop| %>
-  <div>
-    <%= shop.name %>
-    <%= shop.user.username %>
-    <%= link_to 'Show', shop %>
-  </div>
-<% end %>
+<h2 class="mb-4">Buy Somethings</h2>
+<div class="list-group">
+  <% @shops.each do |shop| %>
+    <div class="list-group-item list-group-item-action gap-3 py-3" aria-current="true">
+      <div class="d-flex flex-row bd-highlight">
+        <div class="p-2 bd-highlight"><%= shop.name %></div>
+        <div class="me-auto p-2 bd-highlight"><%= shop.user.username %></div>
+        <div class="p-2 bd-highlight"><%= link_to 'Show', shop, class: "btn btn-primary" %></div>
+      </div>
+    </div>
+  <% end %>
+</div>

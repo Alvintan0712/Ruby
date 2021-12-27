@@ -4,14 +4,18 @@
   <% if @cart.empty? %>
     <p>Add something you want to buy</p>
   <% else %>
-    <% @cart.each do |order| %>
-      <div>
-        <%= order.product.name %>
-        $<%= order.price %>
-        <%= link_to 'Pay', order %>
-        <%= link_to 'Cancel', order, method: :delete, data: { confirm: 'Are you sure?' } %>
-      </div>
-    <% end %>
+    <div class="list-group">
+      <% @cart.each do |order| %>
+        <div class="list-group-item list-group-item-action gap-3 py-3" aria-current="true">
+          <div class="d-flex flex-row bd-highlight">
+            <div class="p-2 bd-highlight"><%= order.product.name %></div>
+            <div class="me-auto p-2 bd-highlight">$<%= order.price %></div>
+            <div class="p-2 bd-highlight"><%= link_to 'Pay', order, class: "btn btn-primary" %></div>
+            <div class="p-2 bd-highlight"><%= link_to 'Cancel', order, class: "btn btn-warning", method: :delete, data: { confirm: 'Are you sure?' } %></div>
+          </div>
+        </div>
+      <% end %>
+    </div>
   <% end %>
 </div>
 

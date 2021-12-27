@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Product:</strong>
+  <%= @image.product_id %>
+</p>
+
+<p>
+  <strong>Image:</strong>
+  <%= image_tag (@image.image), class: "img-responsive", style: 'height:100px; width:100px' %>
+</p>
+
+<%= link_to 'Edit', edit_product_image_path(@product, @image) %> |
+<%= link_to 'Back', root_path %>

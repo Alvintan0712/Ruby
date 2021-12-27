@@ -22,13 +22,17 @@
         <% if @orders.empty? %>
           <p>Buy somethings larh</p>
         <% else %>
-          <% @orders.each do |order| %>
-            <div>
-              <%= order.product.name %>
-              $<%= order.price %>
-              <%= link_to 'Show', order %>
-            </div>
-          <% end %>
+          <div class="list-group">
+            <% @orders.each do |order| %>
+              <div class="list-group-item list-group-item-action gap-3 py-3" aria-current="true">
+                <div class="d-flex flex-row bd-highlight">
+                  <div class="p-2 bd-highlight"><%= order.product.name %></div>
+                  <div class="me-auto p-2 bd-highlight">$<%= order.price %></div>
+                  <div class="p-2 bd-highlight"><%= link_to 'Show', order, class: "btn btn-primary" %></div>
+                </div>
+              </div>
+            <% end %>
+          </div>
         <% end %>
       </div>
     </div>
@@ -37,13 +41,17 @@
         <% if @orders_send.empty? %>
           <p>Buy somethings larh</p>
         <% else %>
-          <% @orders_send.each do |order| %>
-            <div>
-              <%= order.product.name %>
-              $<%= order.price %>
-              <%= link_to 'Show', order %>
-            </div>
-          <% end %>
+          <div class="list-group">
+            <% @orders_send.each do |order| %>
+              <div class="list-group-item list-group-item-action gap-3 py-3" aria-current="true">
+                <div class="d-flex flex-row bd-highlight">
+                  <div class="p-2 bd-highlight"><%= order.product.name %></div>
+                  <div class="me-auto p-2 bd-highlight">$<%= order.price %></div>
+                  <div class="p-2 bd-highlight"><%= link_to 'Show', order, class: "btn btn-primary" %></div>
+                </div>
+              </div>
+            <% end %>
+          </div>
         <% end %>
       </div>
     </div>
@@ -52,13 +60,18 @@
         <% if @orders_receive.empty? %>
           <p>Call the seller send larh</p>
         <% else %>
-          <% @orders_receive.each do |order| %>
-            <div>
-              <%= order.product.name %>
-              $<%= order.price %>
-              <%= link_to 'Show', order %>
-            </div>
-          <% end %>
+          <div class="list-group">
+            <% @orders_receive.each do |order| %>
+              <div class="list-group-item list-group-item-action gap-3 py-3" aria-current="true">
+                <div class="d-flex flex-row bd-highlight">
+                  <div class="p-2 bd-highlight"><%= order.product.name %></div>
+                  <div class="me-auto p-2 bd-highlight">$<%= order.price %></div>
+                  <div class="p-2 bd-highlight"><%= link_to 'Show', order, class: "btn btn-primary" %></div>
+                  <div class="p-2 bd-highlight"><%= link_to 'Receive', order_receive_path(order), class: "btn btn-warning", method: :patch %></div>
+                </div>
+              </div>
+            <% end %>
+          </div>
         <% end %>
       </div>
     </div>
@@ -67,13 +80,18 @@
         <% if @orders_rate.empty? %>
           <p>Buy somethings larh</p>
         <% else %>
-          <% @orders_rate.each do |order| %>
-            <div>
-              <%= order.product.name %>
-              $<%= order.price %>
-              <%= link_to 'Show', order %>
-            </div>
-          <% end %>
+          <div class="list-group">
+            <% @orders_rate.each do |order| %>
+              <div class="list-group-item list-group-item-action gap-3 py-3" aria-current="true">
+                <div class="d-flex flex-row bd-highlight">
+                  <div class="p-2 bd-highlight"><%= order.product.name %></div>
+                  <div class="me-auto p-2 bd-highlight">$<%= order.price %></div>
+                  <div class="p-2 bd-highlight"><%= link_to 'Show', order, class: "btn btn-primary" %></div>
+                  <div class="p-2 bd-highlight"><%= link_to 'Rate', new_order_rate_path(order), class: "btn btn-warning" %></div>
+                </div>
+              </div>
+            <% end %>
+          </div>
         <% end %>
       </div>
     </div>

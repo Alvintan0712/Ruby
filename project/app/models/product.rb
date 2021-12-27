@@ -4,4 +4,5 @@ class Product < ApplicationRecord
   has_many :orders, dependent: :nullify
   has_many :favourites, dependent: :nullify
   has_many :rates, dependent: :destroy
+  has_many :images, dependent: :destroy
 end

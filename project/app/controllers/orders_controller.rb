@@ -44,7 +44,7 @@ class OrdersController < ApplicationController
     if params['commit'] == 'Add To Cart'
       if @order.save
         add_to_cart
-        redirect_to orders_path
+        redirect_to cart_path
       else
         render product_path(@order.product)
       end
@@ -108,7 +108,7 @@ class OrdersController < ApplicationController
   def destroy
     @order.destroy
     respond_to do |format|
-      format.html { redirect_to orders_url, notice: 'Order was successfully destroyed.' }
+      format.html { redirect_to cart_path, notice: 'Remove cart items successfully' }
       format.json { head :no_content }
     end
   end

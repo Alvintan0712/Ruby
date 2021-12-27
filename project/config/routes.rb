@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-
   # Cart
   get 'cart', to: 'orders#cart'
 
@@ -46,6 +45,7 @@ Rails.application.routes.draw do
   # Favourites
   get 'favourites', to: 'favourites#index'
   resources :products, except: [ :index ] do
+    resources :images, except: [ :index ]
     resources :items, except: [ :index ]
     patch 'favourites', to: 'favourites#create'
     delete 'favourites', to: 'favourites#destroy'

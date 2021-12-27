@@ -1,0 +1,5 @@
+<h1>Editing Image</h1>
+
+<%= render 'form', image: @image, product: @product, url: product_image_path(@product, @image) %>
+
+<%= link_to 'Back', product_path(@product) %>

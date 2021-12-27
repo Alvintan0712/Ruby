@@ -1,30 +1,45 @@
-<p>
-  <strong>Name:</strong>
-  <%= @product.name %>
-</p>
+<div class="p-5 mb-4 bg-light rounded-3 row">
+  <div class="container-fluid py-5 col-sm-8">
+    <h4 class="display-5 fw-bold"><%= @product.name %></h4><br/>
+    <p class="col-md-8 fs-4">
+      <strong>Description</strong>
+    </p>
+    <p><%= @product.description %></p>
 
-<p>
-  <strong>Description:</strong>
-  <%= @product.description %>
-</p>
+    <%= link_to 'Visit Shop', shop_path(@product.shop), class: "btn btn-primary" %>
+    <% if current_user == @product.shop.user %>
+      <% if @image %>
+        <%= link_to "Change Image", edit_product_image_path(@product, @image), class: "btn btn-primary" %>
+      <% else %>
+        <%= link_to "Add Image", new_product_image_path(@product), class: "btn btn-primary" %>
+      <% end %>
+    <% else %>
+      <% if @is_favourite %>
+        <%= link_to "Remove Favourite", product_favourites_path(@product), class: "btn btn-secondary", method: :delete %>
+      <% else %>
+        <%= link_to "Add To Favourite", product_favourites_path(@product), class: "btn btn-primary", method: :patch %>
+      <% end %>
+    <% end %>
+  </div>
+  <div class="container-fluid py-5 col-sm-4">
+    <% if @image %>
+      <%= image_tag (@image.image), class: "img-responsive", style: 'height:100%; width:100%' %>
+    <% end %>
+  </div>
+</div>
 
-<p>
-  <strong>Specification:</strong>
-  <%= @product.specification %>
-</p>
-
-<p>
-  <strong>Shop:</strong>
-  <%= @product.shop.name %>
-</p>
+<div class="mb-4 border-bottom">
+  <h4><strong>Specification</strong></h4>
+  <p><%= @product.specification %></p>
+</div>
 
 <div class="mb-4">
   <% if current_user == @product.shop.user %>
     <% unless @items.empty? %>
       <div class="mb-4">
-        <strong>Items:</strong>
+        <h4 class="mb-4"><strong>Items</strong></h4>
         <% @items.each do |item| %>
-            <%= link_to item.properties, product_item_path(@product, item), class: "btn btn-warning" %>
+          <%= render 'item', item: item, product: @product %>
         <% end %>
       </div>
     <% end %>
@@ -33,40 +48,28 @@
     <%= link_to 'Edit Product', edit_product_path(@product), class: "btn btn-secondary" %>
   <% else %>
     <%= form_with url: new_order_path, method: :get do |form| %>
-      <h4>Items</h4>
+      <h4><strong>Items</strong></h4>
       <% @items.each do |item| %>
         <%= form.fields_for item, index: item.id do |item_form| %>
           <%= item_form.hidden_field :item_id, value: item.id %>
-          <div class="mb-4 row row-cols-lg-auto g-2 align-items-center">
-            <%= item_form.label :quantity, item.properties, class: "form-label" %>:
-            $<%= item.cost %>,
-            <%= item.stock %>
-            <div class="col-12">
-              <%= item_form.number_field :quantity, in: 0..item.stock, value: 0, class: "form-control" %>
-            </div>
-          </div>
+          <%= render 'item', item: item, product: @product, item_form: item_form %>
         <% end %>
       <% end %>
-
       <%= form.hidden_field :product_id, value: @product.id %>
-      <div class="actions mb-4">
+
+      <div class="actions mt-4 mb-4">
         <%= form.submit "Buy Now", class: "btn btn-primary" %>
         <%= form.submit "Add To Cart", class: "btn btn-secondary" %>
       </div>
     <% end %>
+  <% end %>
+</div>
 
-    <% if @is_favourite %>
-      <%= link_to "Remove Favourite", product_favourites_path(@product), class: "btn btn-warning", method: :delete %>
-    <% else %>
-      <%= link_to "Add To Favourite", product_favourites_path(@product), class: "btn btn-primary", method: :patch %>
+<% unless @rates.empty? %>
+  <div class="mb-4">
+  <h4><strong>Rate</strong></h4>
+    <% @rates.each do |rate| %>
+      <%= render 'rate', rate: rate %>
     <% end %>
-  <% end %>
-</div>
-
-<h4>Rate</h4>
-<div class="mb-4">
-  <% @rates.each do |rate| %>
-    <p>Review: <%= rate.review %>, User: <%= rate.user.username %></p>
-  <% end %>
-</div>
-
+  </div>
+<% end %>

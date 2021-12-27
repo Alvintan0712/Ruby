@@ -1,31 +1,23 @@
-<h2><%= @shop.name %> Details</h2>
-
-<div class="mb-4">
-  <p>
-    <strong>Name:</strong>
-    <%= @shop.name %>
-  </p>
-
-  <p>
-    <strong>Owner:</strong>
-    <%= @shop.user.username %>
-  </p>
+<div class="p-5 mb-4 bg-light rounded-3 row">
+  <div class="container-fluid py-5">
+    <h4 class="display-5 fw-bold"><%= @shop.name %></h4><br/>
+    <p class="col-md-8 fs-4">
+      <strong>Owner</strong>: <%= @shop.user.username %>
+    </p>
+    <br/>
+    <% if @is_follow %>
+      <%= link_to 'UnFollow', shop_unfollow_path(@shop), class: "btn btn-danger", method: :delete %>
+    <%  else  %>
+      <%= link_to 'Follow', shop_follow_path(@shop), class: "btn btn-primary", method: :patch %>
+    <% end %>
+  </div>
 </div>
 
-<h2>Products</h2>
+<h4 class="mb-4"><strong>Products</strong></h4>
 <div class="mb-4">
   <% @products.each do |product| %>
-    <div>
-      <%= link_to product.name, product, class: "btn btn-primary" %>
-    </div>
+    <%= render 'product', product: product %>
   <% end %>
 </div>
 
-<div class="mb-4">
-  <% if @is_follow %>
-    <%= link_to 'UnFollow', shop_unfollow_path(@shop), class: "btn btn-danger", method: :delete %>
-  <%  else  %>
-    <%= link_to 'Follow', shop_follow_path(@shop), class: "btn btn-primary", method: :patch %>
-  <% end %>
-</div>
 <%= link_to 'Back', root_path %>
