@@ -1,7 +1,6 @@
 <h1>Home</h1>
 
-<%= form_with url: "/", class: "d-flex mb-4", method: :get do |form| %>
-  <% form.label :query, "Search for:" %>
+<%= form_with url: search_path, class: "d-flex mb-4", method: :get do |form| %>
   <%= form.text_field :query, class: "form-control me-2", placeholder: "Search" %>
   <%= form.submit "Search", class: "btn btn-outline-success" %>
 <% end %>

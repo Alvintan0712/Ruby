@@ -41,7 +41,6 @@ class OrdersController < ApplicationController
     @order_items = new_order_items
     @shop = order_shop
 
-    # TODO: Add Order to Cart Table
     if params['commit'] == 'Add To Cart'
       if @order.save
         add_to_cart
@@ -87,6 +86,7 @@ class OrdersController < ApplicationController
     @order.price = get_price(params['order']['item'])
     @order.address = params['order']['address']
     @order.phone = params['order']['phone']
+    @order.delivery = params['order']['delivery']
     @order_items = OrderItem.where(order: @order)
     @user = @order.user
     @shop = order_shop
@@ -184,7 +184,8 @@ class OrdersController < ApplicationController
   def update_order_items
     @items.each do |item, quantity|
       cost = item.cost * quantity
-      @order_items.update(quantity: quantity, cost: cost)
+      order_item = @order_items.find_by(item: item)
+      order_item.update(quantity: quantity, cost: cost)
     end
   end
 

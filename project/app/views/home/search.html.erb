@@ -1,0 +1,37 @@
+<h2>Search Results</h2>
+
+<div class="container">
+  <ul class="nav nav-pills mb-4">
+    <li class="nav-item">
+      <a class="nav-link active" data-bs-toggle="pill" href="#product">Find Products</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="pill" href="#shop">Find Shops</a>
+    </li>
+  </ul>
+
+  <div class="tab-content">
+    <div class="tab-pane container active" id="product">
+      <% if @products.empty? %>
+        <p>Can't find any <%= params[:query] %> products</p>
+      <% else %>
+        <% @products.each do |product| %>
+          <div class="mb-4">
+            <%= product.name %>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+    <div class="tab-pane container fade" id="shop">
+      <% if @shops.empty? %>
+        <p>Can't find any <%= params[:query] %> shops</p>
+      <% else %>
+        <% @shops.each do |shop| %>
+          <div class="mb-4">
+            <%= shop.name %>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>

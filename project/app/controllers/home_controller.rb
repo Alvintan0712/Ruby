@@ -10,4 +10,9 @@ class HomeController < ApplicationController
   end
 
   def about; end
+
+  def search
+    @products = Product.where('name LIKE ?', "%#{params[:query]}%")
+    @shops = Shop.where('name LIKE ?', "%#{params[:query]}%")
+  end
 end

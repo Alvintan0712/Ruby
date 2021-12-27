@@ -8,7 +8,7 @@
       <div>
         <%= order.product.name %>
         $<%= order.price %>
-        <%= link_to 'Show', order %>
+        <%= link_to 'Pay', order %>
         <%= link_to 'Cancel', order, method: :delete, data: { confirm: 'Are you sure?' } %>
       </div>
     <% end %>

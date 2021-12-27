@@ -33,7 +33,7 @@
   <div class="mb-4 row row-cols-lg-auto g-2 align-items-center">
     <%= form.label "phone:", class: "form-label" %>
     <div class="col-12">
-      <%= form.text_field :phone, class: "form-control" %>
+      <%= form.text_field :phone, class: "form-control", required: "required", pattern: "[0-9]*" %>
     </div>
   </div>
   <h4>Delivery</h4>

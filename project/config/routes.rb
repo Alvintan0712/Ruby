@@ -51,9 +51,9 @@ Rails.application.routes.draw do
     delete 'favourites', to: 'favourites#destroy'
   end
 
-  # About
-  get 'about', to: 'home#about'
 
   # Home
+  get 'search', to: 'home#search'
+  get 'about', to: 'home#about'
   root to: 'home#index'
 end
