@@ -7,6 +7,17 @@
       <%= form.number_field :value, class: "form-control", min: "0" %>
     </div>
   </div>
+
+  <div class="mb-4">
+    <%= form.label :password, class: "form-label" %>
+    <%= form.password_field :password, class: "form-control" %>
+  </div>
+
+  <div class="mb-4">
+    <%= form.label :password_confirmation, class: "form-label" %>
+    <%= form.password_field :password_confirmation, class: "form-control" %>
+  </div>
+
   <div class="actions mb-4">
     <%= form.submit "withdraw", class: "btn btn-warning" %>
   </div>

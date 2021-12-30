@@ -63,7 +63,13 @@ class UsersController < ApplicationController
     @user = current_user
     value = params[:value].to_f
 
-    if value.is_a?(Float) && value.positive? && (value <= @user.balance)
+    if params['password'] != params['password_confirmation']
+      redirect_back fallback_location: users_withdraw_path, notice: 'Your password and confirmation password must match'
+      return
+    elsif not   @user.valid_password?(params[:password])
+      redirect_back fallback_location: users_withdraw_path, alert: 'Password incorrect'
+      return
+    elsif value.is_a?(Float) && value.positive? && (value <= @user.balance)
       @user.balance -= value
     else
       redirect_back fallback_location: users_withdraw_path, notice: 'So Poor'

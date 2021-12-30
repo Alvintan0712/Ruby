@@ -74,7 +74,11 @@ class OrdersController < ApplicationController
         format.html { redirect_to @order, notice: 'Paid Successfully.' }
         format.json { render :show, status: :created, location: @order }
       else
-        format.html { redirect_to product_path(product), notice: 'Balance not enough or out of stock' }
+        if @quantity.positive?
+          format.html { redirect_to product_path(product), notice: 'Balance not enough or out of stock' }
+        else
+          format.html { redirect_to product_path(product), notice: 'Please buy something you want' }
+        end
         format.json { render json: @order.errors, status: :unprocessable_entity }
       end
     end
@@ -98,7 +102,11 @@ class OrdersController < ApplicationController
         format.html { redirect_to @order, notice: 'Order was successfully updated.' }
         format.json { render :show, status: :ok, location: @order }
       else
-        format.html { redirect_to @order, notice: 'Poor Guy' }
+        if @quantity.positive?
+          format.html { redirect_to @order, notice: 'Balance not enough or out of stock' }
+        else
+          format.html { redirect_to @order, notice: 'Please buy something you want' }
+        end
         format.json { render json: @order.errors, status: :unprocessable_entity }
       end
     end
@@ -199,10 +207,12 @@ class OrdersController < ApplicationController
   end
 
   def parse_items(dict)
+    @quantity = 0
     items = Array.new
     dict.each do |_, value|
       item = Item.find(value['item_id'].to_i)
       quantity = value['quantity'].to_i
+      @quantity += quantity
       items.append([item, quantity])
     end
     items
@@ -216,7 +226,7 @@ class OrdersController < ApplicationController
       order_item.item.sale  += order_item.quantity
       stock_positive &= order_item.item.stock >= 0
     end
-    @user.balance >= 0 && stock_positive
+    @quantity.positive? && @user.balance >= 0 && stock_positive
   end
 
   def save_all
