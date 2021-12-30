@@ -77,7 +77,7 @@ class ProductsController < ApplicationController
   def ensure_owner
     unless @product.shop.user == current_user
       respond_to do |format|
-        format.html { redirect_to root_path, alert: 'You are not shop owner' }
+        format.html { redirect_to root_path, alert: 'You are not product owner' }
       end
     end
   end

@@ -1,5 +1,8 @@
 class OrdersController < ApplicationController
   before_action :set_order, only: %i[ show edit update destroy ]
+  before_action :ensure_seller, only: %i[ send_item ]
+  before_action :ensure_buyer, only: %i[ receive_item edit update ]
+  before_action :ensure_owner_or_buyer, only: %i[ show destroy ]
 
   # GET /orders or /orders.json
   def index
@@ -177,6 +180,30 @@ class OrdersController < ApplicationController
     order.product = Product.find(params[:product_id])
     order.user = current_user
     order
+  end
+
+  def ensure_seller
+    unless current_user == order_shop.user
+      respond_to do |format|
+        format.html { redirect_to root_path, alert: 'You are not seller' }
+      end
+    end
+  end
+
+  def ensure_buyer
+    unless current_user == @order.user
+      respond_to do |format|
+        format.html { redirect_to root_path, alert: 'You are not buyer' }
+      end
+    end
+  end
+
+  def ensure_owner_or_buyer
+    unless current_user == @order.user || current_user == order_shop.user
+      respond_to do |format|
+        format.html { redirect_to root_path, alert: 'Who are you?' }
+      end
+    end
   end
 
   def get_price(items)
