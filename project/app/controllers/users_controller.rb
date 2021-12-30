@@ -3,16 +3,6 @@ class UsersController < ApplicationController
 
   def show
     @user = current_user
-    @role = case @user.role
-            when 1
-              'normal user'
-            when 2
-              'staff'
-            when 3
-              'admin'
-            else
-              'unknown'
-            end
   end
 
   def edit
@@ -66,7 +56,7 @@ class UsersController < ApplicationController
     if params['password'] != params['password_confirmation']
       redirect_back fallback_location: users_withdraw_path, notice: 'Your password and confirmation password must match'
       return
-    elsif not   @user.valid_password?(params[:password])
+    elsif !@user.valid_password?(params[:password])
       redirect_back fallback_location: users_withdraw_path, alert: 'Password incorrect'
       return
     elsif value.is_a?(Float) && value.positive? && (value <= @user.balance)

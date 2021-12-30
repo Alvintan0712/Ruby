@@ -18,6 +18,7 @@ class ShopsController < ApplicationController
   # GET /shops/manage
   def manage
     @shop = Shop.find_by(user: current_user)
+    ensure_owner
     @products = Product.where(shop: @shop)
     @orders = Order.where(products: @products, status: [1,2,3])
   end
@@ -48,6 +49,7 @@ class ShopsController < ApplicationController
 
   # PATCH/PUT /shops/1 or /shops/1.json
   def update
+    ensure_owner
     respond_to do |format|
       if @shop.update(shop_params)
         format.html { redirect_to @shop, notice: 'Shop was successfully updated.' }
@@ -61,6 +63,7 @@ class ShopsController < ApplicationController
 
   # DELETE /shops/1 or /shops/1.json
   def destroy
+    ensure_owner
     @shop.destroy
     respond_to do |format|
       format.html { redirect_to shops_url, notice: 'Shop was successfully destroyed.' }
@@ -79,9 +82,16 @@ class ShopsController < ApplicationController
     params.require(:shop).permit(:name, :user_id)
   end
 
+  def ensure_owner
+    unless @shop.user == current_user
+      respond_to do |format|
+        format.html { redirect_to root_path, alert: 'You are not shop owner' }
+      end
+    end
+  end
+
   def require_user
     unless Shop.exists?(user: current_user)
-      flash[:error] = 'create a shop first'
       redirect_to new_shop_path
     end
   end

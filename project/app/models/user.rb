@@ -27,7 +27,7 @@ class User < ApplicationRecord
   validates :balance, numericality: { greater_than_or_equal_to: 0 }
 
   # Orders
-  has_many :orders, dependent: :nullify
+  has_many :orders, dependent: :destroy
 
   # Shop
   has_one :shop, dependent: :destroy
