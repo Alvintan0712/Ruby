@@ -5,4 +5,6 @@ class Product < ApplicationRecord
   has_many :favourites, dependent: :nullify
   has_many :rates, dependent: :destroy
   has_many :images, dependent: :destroy
+
+  validates :name, :description, :specification, presence: true
 end

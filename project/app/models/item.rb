@@ -3,4 +3,5 @@ class Item < ApplicationRecord
   has_many :order_items
 
   validates :sale, :cost, :stock, numericality: { greater_than_or_equal_to: 0 }
+  validates :sale, :cost, :stock, :properties, presence: true
 end
