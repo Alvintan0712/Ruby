@@ -108,7 +108,16 @@ class OrdersController < ApplicationController
   def destroy
     @order.destroy
     respond_to do |format|
-      format.html { redirect_to cart_path, notice: 'Remove cart items successfully' }
+      format.html { redirect_to cart_path, notice: 'Order was successfully canceled' }
+      format.json { head :no_content }
+    end
+  end
+
+  def remove_cart
+    @order = Order.find(params[:order_id])
+    @order.destroy
+    respond_to do |format|
+      format.html { redirect_to cart_path, notice: 'Remove order successfully' }
       format.json { head :no_content }
     end
   end
@@ -205,9 +214,9 @@ class OrdersController < ApplicationController
     @order_items.each do |order_item|
       order_item.item.stock -= order_item.quantity
       order_item.item.sale  += order_item.quantity
-      stock_positive &= order_item.item.stock.positive?
+      stock_positive &= order_item.item.stock >= 0
     end
-    @user.balance.positive? && stock_positive
+    @user.balance >= 0 && stock_positive
   end
 
   def save_all

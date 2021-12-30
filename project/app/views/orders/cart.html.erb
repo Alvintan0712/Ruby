@@ -11,7 +11,7 @@
             <div class="p-2 bd-highlight"><%= order.product.name %></div>
             <div class="me-auto p-2 bd-highlight">$<%= order.price %></div>
             <div class="p-2 bd-highlight"><%= link_to 'Pay', order, class: "btn btn-primary" %></div>
-            <div class="p-2 bd-highlight"><%= link_to 'Cancel', order, class: "btn btn-warning", method: :delete, data: { confirm: 'Are you sure?' } %></div>
+            <div class="p-2 bd-highlight"><%= link_to 'Cancel', order_cart_path(order), class: "btn btn-warning", method: :delete, data: { confirm: 'Are you sure?' } %></div>
           </div>
         </div>
       <% end %>

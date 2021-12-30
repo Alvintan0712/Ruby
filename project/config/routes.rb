@@ -7,6 +7,8 @@ Rails.application.routes.draw do
     patch 'send', to: 'orders#send_item'
     patch 'receive', to: 'orders#receive_item'
 
+    delete 'cart', to: 'orders#remove_cart'
+
     # Rates
     resources :rates
   end
