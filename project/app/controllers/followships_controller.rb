@@ -1,4 +1,6 @@
 class FollowshipsController < ApplicationController
+  before_action :authenticate_user!
+
   def index
     @followships = Followship.where(user: current_user)
   end

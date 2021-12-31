@@ -1,4 +1,5 @@
 class RatesController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_rate, only: %i[ show edit update destroy ]
 
   # GET /rates or /rates.json
@@ -29,7 +30,7 @@ class RatesController < ApplicationController
     respond_to do |format|
       if @rate.save
         @order.update(status: 4)
-        format.html { redirect_to order_rate_path(@order, @rate), notice: "Rate was successfully created." }
+        format.html { redirect_to orders_path, notice: "Review was successfully created." }
         format.json { render :show, status: :created, location: @rate }
       else
         format.html { render :new, status: :unprocessable_entity }

@@ -27,7 +27,9 @@
         <p>Can't find any <%= params[:query] %> shops</p>
       <% else %>
         <% @shops.each do |shop| %>
-          <%= link_to shop.name, shop %>
+          <div class="mb-4">
+            <%= link_to shop.name, shop %>
+          </div>
         <% end %>
       <% end %>
     </div>

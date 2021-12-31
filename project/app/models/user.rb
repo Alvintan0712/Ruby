@@ -38,6 +38,6 @@ class User < ApplicationRecord
   # Favourite
   has_many :favourites, dependent: :destroy
 
-  # Favourite
-  has_many :rates, dependent: :nullify
+  # Rates
+  has_many :rates, dependent: :destroy
 end

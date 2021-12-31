@@ -19,7 +19,11 @@
         <%= item_form.label :quantity, item.properties, class: "form-label" %>
         <div class="col-12">
           <% order_item = @order_items.where(item: item).first %>
-          <%= item_form.number_field :quantity, in: 0..item.stock, value: order_item.quantity, class: "form-control" %>
+          <% if order_item.nil? %>
+            <%= item_form.number_field :quantity, in: 0..item.stock, value: 0, class: "form-control" %>
+          <% else %>
+            <%= item_form.number_field :quantity, in: 0..item.stock, value: order_item.quantity, class: "form-control" %>
+          <% end %>
         </div>
       </div>
     <% end %>

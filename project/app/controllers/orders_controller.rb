@@ -1,7 +1,6 @@
 class OrdersController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_order, only: %i[ show edit update destroy ]
-  before_action :ensure_seller, only: %i[ send_item ]
-  before_action :ensure_buyer, only: %i[ receive_item edit update ]
   before_action :ensure_owner_or_buyer, only: %i[ show destroy ]
 
   # GET /orders or /orders.json
@@ -56,6 +55,7 @@ class OrdersController < ApplicationController
 
   # GET /orders/1/edit
   def edit
+    ensure_buyer
     @shop = order_shop
     @items = Item.where(product: @order.product)
     @order_items = OrderItem.where(order: @order)
@@ -89,12 +89,20 @@ class OrdersController < ApplicationController
 
   # PATCH/PUT /orders/1 or /orders/1.json
   def update
+    ensure_buyer
     @items = parse_items(params['order']['item'])
     @order.price = get_price(params['order']['item'])
     @order.address = params['order']['address']
     @order.phone = params['order']['phone']
     @order.delivery = params['order']['delivery']
     @order_items = OrderItem.where(order: @order)
+    if @order_items.empty?
+      @order_items = new_order_items
+      @order_items.each do |order_item|
+        order_item.save
+      end
+      @order_items = OrderItem.where(order: @order)
+    end
     @user = @order.user
     @shop = order_shop
 
@@ -119,7 +127,7 @@ class OrdersController < ApplicationController
   def destroy
     @order.destroy
     respond_to do |format|
-      format.html { redirect_to cart_path, notice: 'Order was successfully canceled' }
+      format.html { redirect_to shops_manage_path, notice: 'Order was successfully canceled' }
       format.json { head :no_content }
     end
   end
@@ -136,6 +144,7 @@ class OrdersController < ApplicationController
   # PATCH /orders/1/send
   def send_item
     @order = Order.find(params[:order_id])
+    ensure_seller
     @order.status = 2
     @order.save
     respond_to do |format|
@@ -147,6 +156,7 @@ class OrdersController < ApplicationController
   # PATCH /orders/1/receive
   def receive_item
     @order = Order.find(params[:order_id])
+    ensure_buyer
     @order.status = 3
     @order.save
     respond_to do |format|
@@ -208,10 +218,12 @@ class OrdersController < ApplicationController
 
   def get_price(items)
     price = 0
-    items.each do |_, value|
-      quantity = value['quantity'].to_i
-      item = Item.find(value['item_id'].to_i)
-      price += item.cost * quantity
+    unless items.nil?
+      items.each do |_, value|
+        quantity = value['quantity'].to_i
+        item = Item.find(value['item_id'].to_i)
+        price += item.cost * quantity
+      end
     end
     price
   end
@@ -229,6 +241,11 @@ class OrdersController < ApplicationController
     @items.each do |item, quantity|
       cost = item.cost * quantity
       order_item = @order_items.find_by(item: item)
+      if order_item.nil? 
+        order_item = OrderItem.new({'order_id' => @order.id, 'item_id' => item.id, 'quantity' => quantity, 'cost' => cost})
+        order_item.save
+        @order_items = OrderItem.where(order: @order)
+      end
       order_item.update(quantity: quantity, cost: cost)
     end
   end
@@ -236,11 +253,13 @@ class OrdersController < ApplicationController
   def parse_items(dict)
     @quantity = 0
     items = Array.new
-    dict.each do |_, value|
-      item = Item.find(value['item_id'].to_i)
-      quantity = value['quantity'].to_i
-      @quantity += quantity
-      items.append([item, quantity])
+    unless dict.nil?
+      dict.each do |_, value|
+        item = Item.find(value['item_id'].to_i)
+        quantity = value['quantity'].to_i
+        @quantity += quantity
+        items.append([item, quantity])
+      end
     end
     items
   end
