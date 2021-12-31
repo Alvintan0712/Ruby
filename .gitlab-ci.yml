@@ -4,6 +4,7 @@ deploy:
     - pumactl stop -P ~/project/tmp/pids/server.pid || true
     - rsync -arv --delete ./project ~
     - cd ~/project
+    - rails webpacker:install
     - bundle install
     - rails db:migrate
     - rails server -d -b 0.0.0.0 -p 5000
