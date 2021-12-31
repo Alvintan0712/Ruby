@@ -47,12 +47,11 @@ Rails.application.routes.draw do
   # Favourites
   get 'favourites', to: 'favourites#index'
   resources :products, except: [ :index ] do
-    resources :images, except: [ :index ]
+    resources :images, except: [ :index, :show ]
     resources :items, except: [ :index ]
     patch 'favourites', to: 'favourites#create'
     delete 'favourites', to: 'favourites#destroy'
   end
-
 
   # Home
   get 'search', to: 'home#search'
