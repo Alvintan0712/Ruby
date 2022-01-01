@@ -25,9 +25,11 @@ class ItemsController < ApplicationController
   end
 
   def edit
+    ensure_owner
   end
 
   def update
+    ensure_owner
     respond_to do |format|
       if @item.update(item_params)
         format.html { redirect_to product_item_path(@item), notice: 'Item was successfully updated.' }
@@ -52,6 +54,16 @@ class ItemsController < ApplicationController
 
   def set_item
     @item = Item.find(params[:id])
+  end
+
+  def ensure_owner
+    @product = Product.find(params[:product_id])
+    unless current_user == @product.shop.user
+      respond_to do |format|
+        format.html { redirect_to @product, alert: 'You are not product owner.' }
+        format.json { head :no_content }
+      end
+    end
   end
 
   def item_params
