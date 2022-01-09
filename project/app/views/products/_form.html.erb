@@ -13,17 +13,17 @@
 
   <div class="mb-4">
     <%= form.label :name, class: "form-label" %>
-    <%= form.text_field :name, class: "form-control" %>
+    <%= form.text_field :name, class: "form-control", required: "required" %>
   </div>
 
   <div class="mb-4">
     <%= form.label :description, class: "form-label" %>
-    <%= form.text_area :description, class: "form-control" %>
+    <%= form.text_area :description, class: "form-control", required: "required" %>
   </div>
 
   <div class="mb-4">
     <%= form.label :specification, class: "form-label" %>
-    <%= form.text_area :specification, class: "form-control" %>
+    <%= form.text_area :specification, class: "form-control", required: "required" %>
   </div>
 
   <%= form.hidden_field :shop_id, value: shop.id %>
